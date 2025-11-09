@@ -1,37 +1,40 @@
 # Environment Variables Explained
 
-## 🔑 Database Configuration - Two Sets of Variables
+## 🔑 Database Configuration - Simplified Structure
 
-### **Set 1: `DB_*` - Backend Application Config**
-Được đọc bởi **backend code** (ormconfig.ts)
+### **Single Source of Truth: `POSTGRES_*`**
+Định nghĩa **1 LẦN DUY NHẤT** ở đầu file `.env`
 
 ```bash
-DB_HOST=127.0.0.1      # Backend kết nối tới PostgreSQL ở đây
-DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=your_password
-DB_NAME=affiliate_db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=affiliate_db
 ```
 
-**Khi nào dùng:**
-- ✅ Chạy backend **ngoài Docker** (local development với `npm run start:dev`)
-- ✅ Backend cần biết PostgreSQL ở đâu để kết nối
+**Được dùng bởi:**
+1. ✅ **docker-compose.yml** - Tạo PostgreSQL container
+2. ✅ **DB_* variables** - Reference tới để tránh duplicate
 
 ---
 
-### **Set 2: `POSTGRES_*` - Docker Container Config**
-Được đọc bởi **docker-compose.yml** để tạo PostgreSQL container
+### **Connection Variables: `DB_*`**
+Reference tới `POSTGRES_*` để tránh lặp lại
 
 ```bash
-POSTGRES_USER=postgres      # Username cho container postgres
-POSTGRES_PASSWORD=your_password
-POSTGRES_DB=affiliate_db    # Database name sẽ tạo trong container
+DB_HOST=127.0.0.1              # Chỉ biến này là độc lập
+DB_PORT=5432                   # Chỉ biến này là độc lập
+DB_USERNAME=${POSTGRES_USER}   # ← Reference
+DB_PASSWORD=${POSTGRES_PASSWORD}  # ← Reference
+DB_NAME=${POSTGRES_DB}         # ← Reference
 ```
 
-**Khi nào dùng:**
-- ✅ Chạy với Docker Compose (`docker-compose up`)
-- ✅ Docker cần biết tạo user/password/database gì trong container postgres
-- ⚠️ Backend code **KHÔNG ĐỌC** những biến này!
+**Được đọc bởi:**
+- ✅ **Backend code** (ormconfig.ts) khi chạy local
+
+**Tại sao làm vậy?**
+- ✅ **Không duplicate** username/password/database name
+- ✅ **Chỉ cần thay đổi 1 chỗ** (POSTGRES_*) là sync tất cả
+- ✅ Vẫn linh hoạt thay đổi `DB_HOST` cho local/docker
 
 ---
 
@@ -184,12 +187,15 @@ docker exec -it affiliate_redis redis-cli -a your_redis_password ping
 
 ## 📝 Summary
 
-| Variable | Đọc bởi | Mục đích | Khi nào cần |
-|----------|---------|----------|-------------|
-| `DB_HOST` | Backend code | Connect tới PostgreSQL | Local dev + Docker (override) |
-| `DB_USERNAME` | Backend code | Username kết nối | Luôn cần |
-| `DB_PASSWORD` | Backend code | Password kết nối | Luôn cần |
-| `DB_NAME` | Backend code | Database name | Luôn cần |
-| `POSTGRES_USER` | docker-compose | Tạo user trong container | Chỉ khi dùng Docker |
-| `POSTGRES_PASSWORD` | docker-compose | Password cho container | Chỉ khi dùng Docker |
-| `POSTGRES_DB` | docker-compose | Tạo database trong container | Chỉ khi dùng Docker |
+| Variable | Giá trị | Đọc bởi | Mục đích |
+|----------|---------|---------|----------|
+| **POSTGRES_USER** | `postgres` | docker-compose, DB_USERNAME | ⭐ Source of truth cho username |
+| **POSTGRES_PASSWORD** | `your_password` | docker-compose, DB_PASSWORD | ⭐ Source of truth cho password |
+| **POSTGRES_DB** | `affiliate_db` | docker-compose, DB_NAME | ⭐ Source of truth cho database name |
+| `DB_HOST` | `127.0.0.1` / `postgres` | Backend code | Địa chỉ PostgreSQL (local/docker) |
+| `DB_PORT` | `5432` | Backend code | Port PostgreSQL |
+| `DB_USERNAME` | `${POSTGRES_USER}` | Backend code | Reference tới POSTGRES_USER |
+| `DB_PASSWORD` | `${POSTGRES_PASSWORD}` | Backend code | Reference tới POSTGRES_PASSWORD |
+| `DB_NAME` | `${POSTGRES_DB}` | Backend code | Reference tới POSTGRES_DB |
+
+**⭐ Quan trọng:** Chỉ cần sửa `POSTGRES_*` là tất cả `DB_*` sẽ tự động sync!
