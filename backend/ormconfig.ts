@@ -2,8 +2,12 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { join } from 'path';
 import * as dotenv from 'dotenv';
 
-// Load .env file manually (ormconfig runs before ConfigModule)
-dotenv.config({ path: join(__dirname, '..', '.env') });
+// Load .env file from project root (not backend folder)
+// __dirname when compiled: /backend/dist
+// .env location: /project-root/.env
+const envPath = join(__dirname, '..', '..', '.env');
+console.log('🔍 Loading .env from:', envPath);
+dotenv.config({ path: envPath });
 
 const isTestEnv = process.env.NODE_ENV === 'test';
 
