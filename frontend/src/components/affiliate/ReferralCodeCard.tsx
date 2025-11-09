@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { toast } from 'sonner';
 
 interface ReferralCodeCardProps {
@@ -52,7 +52,7 @@ export function ReferralCodeCard({ referralCode, shareableLink }: ReferralCodeCa
     <Card className="p-6">
       <div className="mb-4 flex items-center gap-3">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-          <Iconify icon="solar:link-bold-duotone" className="h-6 w-6 text-primary-600" />
+          <Icon icon="solar:link-bold-duotone" className="h-6 w-6 text-primary-600" />
         </div>
         <div>
           <h3 className="text-lg font-semibold text-gray-900">Your Referral Code</h3>
@@ -70,7 +70,7 @@ export function ReferralCodeCard({ referralCode, shareableLink }: ReferralCodeCa
             </code>
           </div>
           <Button onClick={handleCopyCode} variant="outline" size="icon" className="h-12 w-12">
-            <Iconify
+            <Icon
               icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'}
               className={`h-5 w-5 ${copied ? 'text-green-600' : ''}`}
             />
@@ -91,7 +91,7 @@ export function ReferralCodeCard({ referralCode, shareableLink }: ReferralCodeCa
             size="icon"
             className="h-12 w-12"
           >
-            <Iconify
+            <Icon
               icon={copiedLink ? 'solar:check-circle-bold' : 'solar:copy-bold'}
               className={`h-5 w-5 ${copiedLink ? 'text-green-600' : ''}`}
             />
@@ -109,7 +109,7 @@ export function ReferralCodeCard({ referralCode, shareableLink }: ReferralCodeCa
             size="sm"
             className="flex-1"
           >
-            <Iconify icon="mdi:facebook" className="mr-2 h-4 w-4 text-blue-600" />
+            <Icon icon="mdi:facebook" className="mr-2 h-4 w-4 text-blue-600" />
             Facebook
           </Button>
           <Button
@@ -118,7 +118,7 @@ export function ReferralCodeCard({ referralCode, shareableLink }: ReferralCodeCa
             size="sm"
             className="flex-1"
           >
-            <Iconify icon="mdi:twitter" className="mr-2 h-4 w-4 text-sky-500" />
+            <Icon icon="mdi:twitter" className="mr-2 h-4 w-4 text-sky-500" />
             Twitter
           </Button>
           <Button
@@ -127,7 +127,7 @@ export function ReferralCodeCard({ referralCode, shareableLink }: ReferralCodeCa
             size="sm"
             className="flex-1"
           >
-            <Iconify icon="mdi:linkedin" className="mr-2 h-4 w-4 text-blue-700" />
+            <Icon icon="mdi:linkedin" className="mr-2 h-4 w-4 text-blue-700" />
             LinkedIn
           </Button>
         </div>

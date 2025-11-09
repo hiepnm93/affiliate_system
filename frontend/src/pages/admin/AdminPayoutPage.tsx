@@ -3,10 +3,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { cn } from '@/utils';
 import payoutService from '@/api/services/payoutService';
-import type { Payout, PayoutStatus } from '@/types/affiliate';
+import type { PayoutStatus } from '@/types/affiliate';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
@@ -40,7 +40,7 @@ const statusConfig = {
 
 export default function AdminPayoutPage() {
   const queryClient = useQueryClient();
-  const [selectedStatus, setSelectedStatus] = useState<PayoutStatus | 'all'>('pending');
+  const [selectedStatus, setSelectedStatus] = useState<PayoutStatus | 'all'>('pending' as PayoutStatus);
   const [processingId, setProcessingId] = useState<number | null>(null);
   const [adminNotes, setAdminNotes] = useState('');
 
@@ -91,7 +91,7 @@ export default function AdminPayoutPage() {
               <h3 className="mt-2 text-2xl font-bold text-gray-900">{payouts.length}</h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-              <Iconify icon="solar:document-text-bold-duotone" className="h-6 w-6 text-blue-600" />
+              <Icon icon="solar:document-text-bold-duotone" className="h-6 w-6 text-blue-600" />
             </div>
           </div>
         </Card>
@@ -103,7 +103,7 @@ export default function AdminPayoutPage() {
               <h3 className="mt-2 text-2xl font-bold text-yellow-600">{totalPending}</h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
-              <Iconify icon="solar:clock-circle-bold" className="h-6 w-6 text-yellow-600" />
+              <Icon icon="solar:clock-circle-bold" className="h-6 w-6 text-yellow-600" />
             </div>
           </div>
         </Card>
@@ -117,7 +117,7 @@ export default function AdminPayoutPage() {
               </h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-              <Iconify
+              <Icon
                 icon="solar:dollar-minimalistic-bold-duotone"
                 className="h-6 w-6 text-primary-600"
               />
@@ -132,7 +132,7 @@ export default function AdminPayoutPage() {
               <h3 className="mt-2 text-2xl font-bold text-green-600">${totalPaid.toFixed(2)}</h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-              <Iconify icon="solar:check-circle-bold" className="h-6 w-6 text-green-600" />
+              <Icon icon="solar:check-circle-bold" className="h-6 w-6 text-green-600" />
             </div>
           </div>
         </Card>
@@ -147,7 +147,7 @@ export default function AdminPayoutPage() {
               key={status}
               variant={selectedStatus === status ? 'default' : 'outline'}
               size="sm"
-              onClick={() => setSelectedStatus(status)}
+              onClick={() => setSelectedStatus(status as PayoutStatus | 'all')}
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
             </Button>
@@ -158,12 +158,12 @@ export default function AdminPayoutPage() {
       {/* Payouts List */}
       {isLoading ? (
         <Card className="flex items-center justify-center p-12">
-          <Iconify icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
+          <Icon icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
         </Card>
       ) : payouts.length === 0 ? (
         <Card className="p-12 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-            <Iconify icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
+            <Icon icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900">No payout requests found</h3>
           <p className="mt-2 text-sm text-gray-600">
@@ -183,7 +183,7 @@ export default function AdminPayoutPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex gap-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-                      <Iconify
+                      <Icon
                         icon="solar:dollar-minimalistic-bold-duotone"
                         className="h-6 w-6 text-primary-600"
                       />
@@ -199,28 +199,28 @@ export default function AdminPayoutPage() {
                             config.color,
                           )}
                         >
-                          <Iconify icon={config.icon} className="h-3 w-3" />
+                          <Icon icon={config.icon} className="h-3 w-3" />
                           {config.label}
                         </span>
                       </div>
                       <div className="mt-2 grid gap-2 text-sm text-gray-600 md:grid-cols-2">
                         <div className="flex items-center gap-2">
-                          <Iconify icon="solar:user-bold" className="h-4 w-4" />
+                          <Icon icon="solar:user-bold" className="h-4 w-4" />
                           <span>Affiliate #{payout.affiliateId}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Iconify icon="solar:calendar-bold" className="h-4 w-4" />
+                          <Icon icon="solar:calendar-bold" className="h-4 w-4" />
                           <span>
                             Requested: {format(new Date(payout.requestedAt), 'MMM dd, yyyy')}
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Iconify icon="solar:wallet-bold" className="h-4 w-4" />
+                          <Icon icon="solar:wallet-bold" className="h-4 w-4" />
                           <span className="capitalize">{payout.paymentMethod.replace('_', ' ')}</span>
                         </div>
                         {payout.processedAt && (
                           <div className="flex items-center gap-2">
-                            <Iconify icon="solar:check-read-bold" className="h-4 w-4" />
+                            <Icon icon="solar:check-read-bold" className="h-4 w-4" />
                             <span>
                               Processed: {format(new Date(payout.processedAt), 'MMM dd, yyyy')}
                             </span>
@@ -279,7 +279,7 @@ export default function AdminPayoutPage() {
                         onClick={() => handleProcess(payout.id, 'paid')}
                         disabled={processPayoutMutation.isPending}
                       >
-                        <Iconify icon="solar:check-circle-bold" className="mr-2 h-4 w-4" />
+                        <Icon icon="solar:check-circle-bold" className="mr-2 h-4 w-4" />
                         Mark as Paid
                       </Button>
                       <Button
@@ -288,7 +288,7 @@ export default function AdminPayoutPage() {
                         onClick={() => handleProcess(payout.id, 'failed')}
                         disabled={processPayoutMutation.isPending}
                       >
-                        <Iconify icon="solar:close-circle-bold" className="mr-2 h-4 w-4" />
+                        <Icon icon="solar:close-circle-bold" className="mr-2 h-4 w-4" />
                         Mark as Failed
                       </Button>
                       <Button

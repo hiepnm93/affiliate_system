@@ -3,7 +3,6 @@ import { t } from "@/locales/i18n";
 import userStore from "@/store/userStore";
 import axios, { type AxiosRequestConfig, type AxiosError, type AxiosResponse } from "axios";
 import { toast } from "sonner";
-import type { Result } from "#/api";
 import { ResultStatus } from "#/enum";
 
 const axiosInstance = axios.create({

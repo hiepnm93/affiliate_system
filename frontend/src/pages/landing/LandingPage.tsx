@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import { motion } from 'motion/react';
 import { Button } from '@/ui/button';
 import { Card } from '@/ui/card';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 
 export default function LandingPage() {
   const [searchParams] = useSearchParams();
@@ -51,7 +51,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Iconify icon="solar:crown-star-bold-duotone" className="h-8 w-8 text-primary-600" />
+              <Icon icon="solar:crown-star-bold-duotone" className="h-8 w-8 text-primary-600" />
               <span className="text-2xl font-bold text-gray-900">Affiliate System</span>
             </div>
             <Button variant="ghost" onClick={() => navigate('/auth/login')}>
@@ -96,7 +96,7 @@ export default function LandingPage() {
             <Card className="overflow-hidden border-2 border-transparent transition-all hover:border-primary-200 hover:shadow-xl">
               <div className="p-8">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
-                  <Iconify
+                  <Icon
                     icon="solar:user-star-bold-duotone"
                     className="h-8 w-8 text-primary-600"
                   />
@@ -109,15 +109,15 @@ export default function LandingPage() {
 
                 <div className="mt-6 space-y-3">
                   <div className="flex items-start gap-3">
-                    <Iconify icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
+                    <Icon icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
                     <span className="text-gray-700">Special welcome voucher</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Iconify icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
+                    <Icon icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
                     <span className="text-gray-700">Access to all premium features</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Iconify icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
+                    <Icon icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
                     <span className="text-gray-700">24/7 customer support</span>
                   </div>
                 </div>
@@ -128,7 +128,7 @@ export default function LandingPage() {
                   size="lg"
                 >
                   Get Started
-                  <Iconify icon="solar:arrow-right-linear" className="ml-2 h-5 w-5" />
+                  <Icon icon="solar:arrow-right-linear" className="ml-2 h-5 w-5" />
                 </Button>
               </div>
             </Card>
@@ -137,7 +137,7 @@ export default function LandingPage() {
             <Card className="overflow-hidden border-2 border-transparent transition-all hover:border-secondary-200 hover:shadow-xl">
               <div className="p-8">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-secondary-100">
-                  <Iconify
+                  <Icon
                     icon="solar:dollar-minimalistic-bold-duotone"
                     className="h-8 w-8 text-secondary-600"
                   />
@@ -150,15 +150,15 @@ export default function LandingPage() {
 
                 <div className="mt-6 space-y-3">
                   <div className="flex items-start gap-3">
-                    <Iconify icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
+                    <Icon icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
                     <span className="text-gray-700">Multi-level commission structure</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Iconify icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
+                    <Icon icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
                     <span className="text-gray-700">Real-time performance tracking</span>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Iconify icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
+                    <Icon icon="solar:check-circle-bold" className="mt-1 h-5 w-5 text-green-600" />
                     <span className="text-gray-700">Fast payout processing</span>
                   </div>
                 </div>
@@ -170,7 +170,7 @@ export default function LandingPage() {
                   variant="outline"
                 >
                   Become an Affiliate
-                  <Iconify icon="solar:arrow-right-linear" className="ml-2 h-5 w-5" />
+                  <Icon icon="solar:arrow-right-linear" className="ml-2 h-5 w-5" />
                 </Button>
               </div>
             </Card>
@@ -187,7 +187,7 @@ export default function LandingPage() {
             <div className="mt-12 grid gap-8 md:grid-cols-3">
               <div className="text-center">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
-                  <Iconify icon="solar:shield-check-bold-duotone" className="h-8 w-8 text-blue-600" />
+                  <Icon icon="solar:shield-check-bold-duotone" className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">Secure & Reliable</h3>
                 <p className="mt-2 text-gray-600">
@@ -196,7 +196,7 @@ export default function LandingPage() {
               </div>
               <div className="text-center">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-purple-100">
-                  <Iconify icon="solar:graph-up-bold-duotone" className="h-8 w-8 text-purple-600" />
+                  <Icon icon="solar:graph-up-bold-duotone" className="h-8 w-8 text-purple-600" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">Grow Your Income</h3>
                 <p className="mt-2 text-gray-600">
@@ -205,7 +205,7 @@ export default function LandingPage() {
               </div>
               <div className="text-center">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                  <Iconify icon="solar:chart-square-bold-duotone" className="h-8 w-8 text-green-600" />
+                  <Icon icon="solar:chart-square-bold-duotone" className="h-8 w-8 text-green-600" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">Real-time Analytics</h3>
                 <p className="mt-2 text-gray-600">

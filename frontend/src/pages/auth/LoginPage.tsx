@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { motion } from 'motion/react';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { Card } from '@/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { useSignIn } from '@/store/userStore';
 import { toast } from 'sonner';
 
@@ -51,7 +51,7 @@ export default function LoginPage() {
         <Card className="p-8">
           <div className="mb-8 text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
-              <Iconify icon="solar:user-bold-duotone" className="h-8 w-8 text-primary-600" />
+              <Icon icon="solar:user-bold-duotone" className="h-8 w-8 text-primary-600" />
             </div>
             <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
             <p className="mt-2 text-gray-600">Sign in to your affiliate account</p>
@@ -99,7 +99,7 @@ export default function LoginPage() {
               />
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading && <Iconify icon="eos-icons:loading" className="mr-2 h-4 w-4" />}
+                {loading && <Icon icon="eos-icons:loading" className="mr-2 h-4 w-4" />}
                 Sign In
               </Button>
             </form>
@@ -124,7 +124,7 @@ export default function LoginPage() {
               className="text-sm text-gray-500"
               onClick={() => navigate('/')}
             >
-              <Iconify icon="solar:arrow-left-linear" className="mr-1 h-4 w-4" />
+              <Icon icon="solar:arrow-left-linear" className="mr-1 h-4 w-4" />
               Back to home
             </Button>
           </div>

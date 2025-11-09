@@ -1,5 +1,5 @@
 import { Card } from '@/ui/card';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { cn } from '@/utils';
 import type { Commission, CommissionStatus } from '@/types/affiliate';
 import { format } from 'date-fns';
@@ -40,7 +40,7 @@ export function CommissionTable({ commissions, isLoading }: CommissionTableProps
     return (
       <Card className="p-6">
         <div className="flex items-center justify-center py-12">
-          <Iconify icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
+          <Icon icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
         </div>
       </Card>
     );
@@ -51,7 +51,7 @@ export function CommissionTable({ commissions, isLoading }: CommissionTableProps
       <Card className="p-6">
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-            <Iconify icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
+            <Icon icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900">No commissions yet</h3>
           <p className="mt-2 text-sm text-gray-600">
@@ -120,7 +120,7 @@ export function CommissionTable({ commissions, isLoading }: CommissionTableProps
                         config.color,
                       )}
                     >
-                      <Iconify icon={config.icon} className="h-3 w-3" />
+                      <Icon icon={config.icon} className="h-3 w-3" />
                       {config.label}
                     </span>
                   </td>

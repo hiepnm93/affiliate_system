@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { ReferralCodeCard, StatsCard, CommissionTable } from '@/components/affiliate';
 import affiliateService from '@/api/services/affiliateService';
 import commissionService from '@/api/services/commissionService';
-import { toast } from 'sonner';
 
 export default function AffiliateDashboard() {
   const [dateRange, setDateRange] = useState<'7d' | '30d' | '90d' | 'all'>('30d');
@@ -18,7 +17,7 @@ export default function AffiliateDashboard() {
   });
 
   // Fetch stats
-  const { data: stats, isLoading: isLoadingStats } = useQuery({
+  const { data: stats } = useQuery({
     queryKey: ['affiliateStats', dateRange],
     queryFn: () => affiliateService.getStats(),
   });
@@ -54,7 +53,7 @@ export default function AffiliateDashboard() {
       {/* Referral Code Card */}
       {isLoadingCode ? (
         <Card className="flex items-center justify-center p-12">
-          <Iconify icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
+          <Icon icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
         </Card>
       ) : referralData ? (
         <ReferralCodeCard
@@ -106,7 +105,7 @@ export default function AffiliateDashboard() {
               </h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
-              <Iconify icon="solar:clock-circle-bold" className="h-6 w-6 text-yellow-600" />
+              <Icon icon="solar:clock-circle-bold" className="h-6 w-6 text-yellow-600" />
             </div>
           </div>
         </Card>
@@ -120,7 +119,7 @@ export default function AffiliateDashboard() {
               </h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-              <Iconify icon="solar:check-circle-bold" className="h-6 w-6 text-green-600" />
+              <Icon icon="solar:check-circle-bold" className="h-6 w-6 text-green-600" />
             </div>
           </div>
         </Card>
@@ -134,7 +133,7 @@ export default function AffiliateDashboard() {
               </h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-              <Iconify icon="solar:wallet-money-bold" className="h-6 w-6 text-blue-600" />
+              <Icon icon="solar:wallet-money-bold" className="h-6 w-6 text-blue-600" />
             </div>
           </div>
         </Card>
@@ -148,7 +147,7 @@ export default function AffiliateDashboard() {
               </h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-              <Iconify
+              <Icon
                 icon="solar:dollar-minimalistic-bold-duotone"
                 className="h-6 w-6 text-primary-600"
               />
@@ -167,7 +166,7 @@ export default function AffiliateDashboard() {
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">Recent Commissions</h2>
           <Button variant="outline" size="sm">
-            <Iconify icon="solar:download-linear" className="mr-2 h-4 w-4" />
+            <Icon icon="solar:download-linear" className="mr-2 h-4 w-4" />
             Export
           </Button>
         </div>
@@ -190,7 +189,7 @@ export default function AffiliateDashboard() {
             <div className="text-sm text-gray-600">Clicks</div>
           </div>
           <div className="text-center">
-            <Iconify icon="solar:arrow-right-linear" className="mx-auto mb-2 h-6 w-6 text-gray-400" />
+            <Icon icon="solar:arrow-right-linear" className="mx-auto mb-2 h-6 w-6 text-gray-400" />
             <div className="text-3xl font-bold text-green-600">{stats?.totalSignups || 0}</div>
             <div className="text-sm text-gray-600">Signups</div>
             {stats?.totalClicks ? (
@@ -200,7 +199,7 @@ export default function AffiliateDashboard() {
             ) : null}
           </div>
           <div className="text-center">
-            <Iconify icon="solar:arrow-right-linear" className="mx-auto mb-2 h-6 w-6 text-gray-400" />
+            <Icon icon="solar:arrow-right-linear" className="mx-auto mb-2 h-6 w-6 text-gray-400" />
             <div className="text-3xl font-bold text-purple-600">
               {stats?.totalConversions || 0}
             </div>

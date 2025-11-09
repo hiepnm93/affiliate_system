@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { motion } from 'motion/react';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { Card } from '@/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { toast } from 'sonner';
 import apiClient from '@/api/apiClient';
 import affiliateService from '@/api/services/affiliateService';
@@ -122,7 +122,7 @@ export default function RegisterPage() {
                 registrationType === 'affiliate' ? 'bg-secondary-100' : 'bg-primary-100'
               }`}
             >
-              <Iconify
+              <Icon
                 icon={
                   registrationType === 'affiliate'
                     ? 'solar:dollar-minimalistic-bold-duotone'
@@ -249,7 +249,7 @@ export default function RegisterPage() {
               />
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading && <Iconify icon="eos-icons:loading" className="mr-2 h-4 w-4" />}
+                {loading && <Icon icon="eos-icons:loading" className="mr-2 h-4 w-4" />}
                 {registrationType === 'affiliate' ? 'Join as Affiliate' : 'Create Account'}
               </Button>
             </form>
@@ -274,7 +274,7 @@ export default function RegisterPage() {
               className="text-sm text-gray-500"
               onClick={() => navigate('/')}
             >
-              <Iconify icon="solar:arrow-left-linear" className="mr-1 h-4 w-4" />
+              <Icon icon="solar:arrow-left-linear" className="mr-1 h-4 w-4" />
               Back to home
             </Button>
           </div>

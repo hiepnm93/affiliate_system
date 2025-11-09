@@ -5,10 +5,11 @@ import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { cn } from '@/utils';
 import campaignService from '@/api/services/campaignService';
-import type { Campaign, CreateCampaignDto, RewardType } from '@/types/affiliate';
+import type { Campaign, CreateCampaignDto } from '@/types/affiliate';
+import { RewardType } from '@/types/affiliate';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
@@ -55,7 +56,7 @@ export default function CampaignManagementPage() {
       description: '',
       startDate: '',
       endDate: '',
-      rewardType: 'percentage',
+      rewardType: RewardType.PERCENTAGE,
       rewardValue: 0,
       multiLevelConfig: { 1: 10, 2: 5, 3: 2 },
       cookieTTLDays: 30,
@@ -101,7 +102,7 @@ export default function CampaignManagementPage() {
         </div>
         {!isCreating && (
           <Button onClick={() => setIsCreating(true)}>
-            <Iconify icon="solar:add-circle-bold" className="mr-2 h-5 w-5" />
+            <Icon icon="solar:add-circle-bold" className="mr-2 h-5 w-5" />
             Create Campaign
           </Button>
         )}
@@ -115,7 +116,7 @@ export default function CampaignManagementPage() {
               {editingCampaign ? 'Edit Campaign' : 'Create New Campaign'}
             </h2>
             <Button variant="ghost" size="sm" onClick={handleCancelEdit}>
-              <Iconify icon="solar:close-circle-linear" className="h-5 w-5" />
+              <Icon icon="solar:close-circle-linear" className="h-5 w-5" />
             </Button>
           </div>
 
@@ -274,7 +275,7 @@ export default function CampaignManagementPage() {
                   disabled={createMutation.isPending || updateMutation.isPending}
                 >
                   {(createMutation.isPending || updateMutation.isPending) && (
-                    <Iconify icon="eos-icons:loading" className="mr-2 h-4 w-4" />
+                    <Icon icon="eos-icons:loading" className="mr-2 h-4 w-4" />
                   )}
                   {editingCampaign ? 'Update Campaign' : 'Create Campaign'}
                 </Button>
@@ -291,12 +292,12 @@ export default function CampaignManagementPage() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
           <Card className="flex items-center justify-center p-12">
-            <Iconify icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
+            <Icon icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
           </Card>
         ) : campaigns.length === 0 ? (
           <Card className="col-span-full p-12 text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-              <Iconify icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
+              <Icon icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900">No campaigns yet</h3>
             <p className="mt-2 text-sm text-gray-600">Create your first campaign to get started</p>
@@ -323,19 +324,19 @@ export default function CampaignManagementPage() {
 
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2 text-gray-600">
-                  <Iconify icon="solar:calendar-bold-duotone" className="h-4 w-4" />
+                  <Icon icon="solar:calendar-bold-duotone" className="h-4 w-4" />
                   <span>
                     {format(new Date(campaign.startDate), 'MMM dd')} -{' '}
                     {format(new Date(campaign.endDate), 'MMM dd, yyyy')}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-600">
-                  <Iconify icon="solar:tag-bold-duotone" className="h-4 w-4" />
+                  <Icon icon="solar:tag-bold-duotone" className="h-4 w-4" />
                   <span className="capitalize">{campaign.rewardType}</span>
                   <span className="font-semibold">{campaign.rewardValue}%</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-600">
-                  <Iconify icon="solar:layers-bold-duotone" className="h-4 w-4" />
+                  <Icon icon="solar:layers-bold-duotone" className="h-4 w-4" />
                   <span>
                     Levels: {Object.keys(campaign.multiLevelConfig).length}
                   </span>
@@ -344,7 +345,7 @@ export default function CampaignManagementPage() {
 
               <div className="mt-4 flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => handleEdit(campaign)}>
-                  <Iconify icon="solar:pen-bold" className="mr-2 h-4 w-4" />
+                  <Icon icon="solar:pen-bold" className="mr-2 h-4 w-4" />
                   Edit
                 </Button>
               </div>

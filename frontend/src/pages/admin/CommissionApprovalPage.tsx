@@ -3,10 +3,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { cn } from '@/utils';
 import commissionService from '@/api/services/commissionService';
-import type { Commission, CommissionStatus } from '@/types/affiliate';
+import type { CommissionStatus } from '@/types/affiliate';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
@@ -35,7 +35,7 @@ const statusConfig = {
 
 export default function CommissionApprovalPage() {
   const queryClient = useQueryClient();
-  const [selectedStatus, setSelectedStatus] = useState<CommissionStatus | 'all'>('pending');
+  const [selectedStatus, setSelectedStatus] = useState<CommissionStatus | 'all'>('pending' as CommissionStatus);
   const [rejectingId, setRejectingId] = useState<number | null>(null);
   const [rejectionNotes, setRejectionNotes] = useState('');
 
@@ -104,7 +104,7 @@ export default function CommissionApprovalPage() {
               <h3 className="mt-2 text-2xl font-bold text-gray-900">{commissions.length}</h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-              <Iconify icon="solar:document-text-bold-duotone" className="h-6 w-6 text-blue-600" />
+              <Icon icon="solar:document-text-bold-duotone" className="h-6 w-6 text-blue-600" />
             </div>
           </div>
         </Card>
@@ -116,7 +116,7 @@ export default function CommissionApprovalPage() {
               <h3 className="mt-2 text-2xl font-bold text-yellow-600">{totalPending}</h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
-              <Iconify icon="solar:clock-circle-bold" className="h-6 w-6 text-yellow-600" />
+              <Icon icon="solar:clock-circle-bold" className="h-6 w-6 text-yellow-600" />
             </div>
           </div>
         </Card>
@@ -130,7 +130,7 @@ export default function CommissionApprovalPage() {
               </h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-              <Iconify
+              <Icon
                 icon="solar:dollar-minimalistic-bold-duotone"
                 className="h-6 w-6 text-primary-600"
               />
@@ -147,7 +147,7 @@ export default function CommissionApprovalPage() {
               </h3>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-              <Iconify icon="solar:check-circle-bold" className="h-6 w-6 text-green-600" />
+              <Icon icon="solar:check-circle-bold" className="h-6 w-6 text-green-600" />
             </div>
           </div>
         </Card>
@@ -162,7 +162,7 @@ export default function CommissionApprovalPage() {
               key={status}
               variant={selectedStatus === status ? 'default' : 'outline'}
               size="sm"
-              onClick={() => setSelectedStatus(status)}
+              onClick={() => setSelectedStatus(status as CommissionStatus | 'all')}
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
             </Button>
@@ -173,12 +173,12 @@ export default function CommissionApprovalPage() {
       {/* Commissions List */}
       {isLoading ? (
         <Card className="flex items-center justify-center p-12">
-          <Iconify icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
+          <Icon icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
         </Card>
       ) : commissions.length === 0 ? (
         <Card className="p-12 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-            <Iconify icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
+            <Icon icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900">No commissions found</h3>
           <p className="mt-2 text-sm text-gray-600">
@@ -252,7 +252,7 @@ export default function CommissionApprovalPage() {
                             config.color,
                           )}
                         >
-                          <Iconify icon={config.icon} className="h-3 w-3" />
+                          <Icon icon={config.icon} className="h-3 w-3" />
                           {config.label}
                         </span>
                       </td>
@@ -265,7 +265,7 @@ export default function CommissionApprovalPage() {
                               onClick={() => handleApprove(commission.id)}
                               disabled={approveMutation.isPending}
                             >
-                              <Iconify icon="solar:check-circle-bold" className="mr-1 h-4 w-4" />
+                              <Icon icon="solar:check-circle-bold" className="mr-1 h-4 w-4" />
                               Approve
                             </Button>
                             <Button
@@ -273,7 +273,7 @@ export default function CommissionApprovalPage() {
                               variant="destructive"
                               onClick={() => setRejectingId(commission.id)}
                             >
-                              <Iconify icon="solar:close-circle-bold" className="mr-1 h-4 w-4" />
+                              <Icon icon="solar:close-circle-bold" className="mr-1 h-4 w-4" />
                               Reject
                             </Button>
                           </div>

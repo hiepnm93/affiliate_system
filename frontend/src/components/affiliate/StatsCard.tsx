@@ -1,5 +1,5 @@
 import { Card } from '@/ui/card';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { cn } from '@/utils';
 
 interface StatsCardProps {
@@ -31,7 +31,7 @@ export function StatsCard({
           {description && <p className="mt-1 text-sm text-gray-500">{description}</p>}
           {trend && (
             <div className="mt-2 flex items-center gap-1">
-              <Iconify
+              <Icon
                 icon={
                   trend.isPositive
                     ? 'solar:arrow-up-bold'
@@ -55,7 +55,7 @@ export function StatsCard({
           )}
         </div>
         <div className={cn('flex h-12 w-12 items-center justify-center rounded-full', colorClass)}>
-          <Iconify icon={icon} className="h-6 w-6" />
+          <Icon icon={icon} className="h-6 w-6" />
         </div>
       </div>
     </Card>

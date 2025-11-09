@@ -5,7 +5,7 @@ import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import { cn } from '@/utils';
 import payoutService from '@/api/services/payoutService';
 import affiliateService from '@/api/services/affiliateService';
@@ -66,12 +66,12 @@ const statusConfig = {
 
 export default function PayoutPage() {
   const queryClient = useQueryClient();
-  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('bank_transfer');
+  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('bank_transfer' as PaymentMethod);
 
   // Fetch stats for available balance
   const { data: stats } = useQuery({
     queryKey: ['affiliateStats'],
-    queryFn: affiliateService.getStats,
+    queryFn: () => affiliateService.getStats(),
   });
 
   // Fetch payout history
@@ -97,7 +97,7 @@ export default function PayoutPage() {
   const form = useForm<RequestPayoutDto>({
     defaultValues: {
       amount: 0,
-      paymentMethod: 'bank_transfer',
+      paymentMethod: 'bank_transfer' as PaymentMethod,
       paymentDetails: '',
     },
   });
@@ -122,7 +122,7 @@ export default function PayoutPage() {
     });
   };
 
-  const availableBalance = stats?.availableBalance || 0;
+  const availableBalance = (stats?.availableBalance ?? 0);
   const canRequestPayout = availableBalance >= 50;
 
   return (
@@ -139,7 +139,7 @@ export default function PayoutPage() {
           <Card className="p-6">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-                <Iconify
+                <Icon
                   icon="solar:dollar-minimalistic-bold-duotone"
                   className="h-6 w-6 text-primary-600"
                 />
@@ -213,7 +213,7 @@ export default function PayoutPage() {
                               : 'border-gray-200 hover:border-gray-300',
                           )}
                         >
-                          <Iconify icon={method.icon} className="h-6 w-6" />
+                          <Icon icon={method.icon} className="h-6 w-6" />
                           <span className="text-xs font-medium">{method.label}</span>
                         </button>
                       ))}
@@ -249,7 +249,7 @@ export default function PayoutPage() {
                     disabled={requestPayoutMutation.isPending}
                   >
                     {requestPayoutMutation.isPending && (
-                      <Iconify icon="eos-icons:loading" className="mr-2 h-4 w-4" />
+                      <Icon icon="eos-icons:loading" className="mr-2 h-4 w-4" />
                     )}
                     Request Payout
                   </Button>
@@ -257,7 +257,7 @@ export default function PayoutPage() {
               </Form>
             ) : (
               <div className="rounded-lg border-2 border-dashed border-gray-300 p-6 text-center">
-                <Iconify
+                <Icon
                   icon="solar:wallet-money-bold-duotone"
                   className="mx-auto mb-3 h-12 w-12 text-gray-400"
                 />
@@ -279,12 +279,12 @@ export default function PayoutPage() {
 
             {isLoading ? (
               <div className="flex items-center justify-center py-12">
-                <Iconify icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
+                <Icon icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
               </div>
             ) : payouts.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-                  <Iconify icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
+                  <Icon icon="solar:document-text-bold-duotone" className="h-8 w-8 text-gray-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">No payouts yet</h3>
                 <p className="mt-2 text-sm text-gray-600">
@@ -302,7 +302,7 @@ export default function PayoutPage() {
                     >
                       <div className="flex items-center gap-4">
                         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100">
-                          <Iconify
+                          <Icon
                             icon="solar:dollar-minimalistic-bold"
                             className="h-6 w-6 text-primary-600"
                           />
@@ -326,7 +326,7 @@ export default function PayoutPage() {
                             config.color,
                           )}
                         >
-                          <Iconify icon={config.icon} className="h-3 w-3" />
+                          <Icon icon={config.icon} className="h-3 w-3" />
                           {config.label}
                         </span>
                         {payout.processedAt && (

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/ui/card';
 import { Button } from '@/ui/button';
-import { Iconify } from '@/components/icon';
+import { Icon } from '@/components/icon';
 import reportsService from '@/api/services/reportsService';
 
 export default function AdminReportsPage() {
@@ -68,7 +68,7 @@ export default function AdminReportsPage() {
 
       {isLoading ? (
         <Card className="flex items-center justify-center p-12">
-          <Iconify icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
+          <Icon icon="eos-icons:loading" className="h-8 w-8 text-primary-600" />
         </Card>
       ) : (
         <>
@@ -85,7 +85,7 @@ export default function AdminReportsPage() {
                   <div
                     className={`flex h-12 w-12 items-center justify-center rounded-full ${stat.color}`}
                   >
-                    <Iconify icon={stat.icon} className="h-6 w-6" />
+                    <Icon icon={stat.icon} className="h-6 w-6" />
                   </div>
                 </div>
               </Card>
@@ -102,14 +102,14 @@ export default function AdminReportsPage() {
                 </div>
                 <div className="mt-1 text-sm text-gray-600">Referrals</div>
               </div>
-              <Iconify icon="solar:arrow-right-linear" className="h-6 w-6 text-gray-400" />
+              <Icon icon="solar:arrow-right-linear" className="h-6 w-6 text-gray-400" />
               <div className="text-center">
                 <div className="text-3xl font-bold text-primary-600">
                   {((reports?.overview.conversionRate || 0) * 100).toFixed(1)}%
                 </div>
                 <div className="mt-1 text-sm text-gray-600">Conversion Rate</div>
               </div>
-              <Iconify icon="solar:arrow-right-linear" className="h-6 w-6 text-gray-400" />
+              <Icon icon="solar:arrow-right-linear" className="h-6 w-6 text-gray-400" />
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600">
                   ${(reports?.overview.totalCommissions || 0).toFixed(2)}
@@ -127,7 +127,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100">
-                      <Iconify icon="solar:clock-circle-bold" className="h-5 w-5 text-yellow-600" />
+                      <Icon icon="solar:clock-circle-bold" className="h-5 w-5 text-yellow-600" />
                     </div>
                     <span className="font-medium text-gray-700">Pending</span>
                   </div>
@@ -138,7 +138,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-                      <Iconify icon="solar:check-circle-bold" className="h-5 w-5 text-green-600" />
+                      <Icon icon="solar:check-circle-bold" className="h-5 w-5 text-green-600" />
                     </div>
                     <span className="font-medium text-gray-700">Approved</span>
                   </div>
@@ -149,7 +149,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
-                      <Iconify
+                      <Icon
                         icon="solar:wallet-money-bold"
                         className="h-5 w-5 text-blue-600"
                       />
@@ -163,7 +163,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
-                      <Iconify icon="solar:close-circle-bold" className="h-5 w-5 text-red-600" />
+                      <Icon icon="solar:close-circle-bold" className="h-5 w-5 text-red-600" />
                     </div>
                     <span className="font-medium text-gray-700">Rejected</span>
                   </div>
@@ -180,7 +180,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100">
-                      <Iconify icon="solar:clock-circle-bold" className="h-5 w-5 text-yellow-600" />
+                      <Icon icon="solar:clock-circle-bold" className="h-5 w-5 text-yellow-600" />
                     </div>
                     <span className="font-medium text-gray-700">Pending</span>
                   </div>
@@ -191,7 +191,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
-                      <Iconify icon="solar:refresh-bold" className="h-5 w-5 text-blue-600" />
+                      <Icon icon="solar:refresh-bold" className="h-5 w-5 text-blue-600" />
                     </div>
                     <span className="font-medium text-gray-700">Processing</span>
                   </div>
@@ -202,7 +202,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-                      <Iconify icon="solar:check-circle-bold" className="h-5 w-5 text-green-600" />
+                      <Icon icon="solar:check-circle-bold" className="h-5 w-5 text-green-600" />
                     </div>
                     <span className="font-medium text-gray-700">Paid</span>
                   </div>
@@ -213,7 +213,7 @@ export default function AdminReportsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
-                      <Iconify icon="solar:close-circle-bold" className="h-5 w-5 text-red-600" />
+                      <Icon icon="solar:close-circle-bold" className="h-5 w-5 text-red-600" />
                     </div>
                     <span className="font-medium text-gray-700">Failed</span>
                   </div>
@@ -230,15 +230,15 @@ export default function AdminReportsPage() {
             <h2 className="mb-4 text-lg font-semibold text-gray-900">Export Reports</h2>
             <div className="flex gap-3">
               <Button variant="outline">
-                <Iconify icon="solar:download-linear" className="mr-2 h-5 w-5" />
+                <Icon icon="solar:download-linear" className="mr-2 h-5 w-5" />
                 Export to CSV
               </Button>
               <Button variant="outline">
-                <Iconify icon="solar:file-text-bold" className="mr-2 h-5 w-5" />
+                <Icon icon="solar:file-text-bold" className="mr-2 h-5 w-5" />
                 Export to PDF
               </Button>
               <Button variant="outline">
-                <Iconify icon="solar:chart-2-bold" className="mr-2 h-5 w-5" />
+                <Icon icon="solar:chart-2-bold" className="mr-2 h-5 w-5" />
                 Generate Full Report
               </Button>
             </div>
