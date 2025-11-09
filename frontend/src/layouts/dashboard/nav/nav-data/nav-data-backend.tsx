@@ -1,32 +1,46 @@
-import { DB_MENU } from "@/_mock/assets_backup";
 import { Icon } from "@/components/icon";
-import type { NavItemDataProps, NavProps } from "@/components/nav";
-import type { MenuTree } from "@/types/entity";
-import { Badge } from "@/ui/badge";
-import { convertFlatToTree } from "@/utils/tree";
+import type { NavProps } from "@/components/nav";
 
-const convertChildren = (children?: MenuTree[]): NavItemDataProps[] => {
-	if (!children?.length) return [];
-
-	return children.map((child) => ({
-		title: child.name,
-		path: child.path || "",
-		icon: child.icon ? typeof child.icon === "string" ? <Icon icon={child.icon} size="24" /> : child.icon : null,
-		caption: child.caption,
-		info: child.info ? <Badge variant="default">{child.info}</Badge> : null,
-		disabled: child.disabled,
-		externalLink: child.externalLink,
-		auth: child.auth,
-		hidden: child.hidden,
-		children: convertChildren(child.children),
-	}));
-};
-
-const convert = (menuTree: MenuTree[]): NavProps["data"] => {
-	return menuTree.map((item) => ({
-		name: item.name,
-		items: convertChildren(item.children),
-	}));
-};
-
-export const backendNavData: NavProps["data"] = convert(convertFlatToTree(DB_MENU));
+// Backend nav data - same as frontend for Affiliate System
+export const backendNavData: NavProps["data"] = [
+	{
+		name: "Affiliate System",
+		items: [
+			{
+				title: "Dashboard",
+				path: "/affiliate",
+				icon: <Icon icon="solar:graph-bold-duotone" size="24" />,
+			},
+			{
+				title: "Payouts",
+				path: "/affiliate/payouts",
+				icon: <Icon icon="solar:wallet-money-bold-duotone" size="24" />,
+			},
+		],
+	},
+	{
+		name: "Admin",
+		items: [
+			{
+				title: "Campaigns",
+				path: "/admin/campaigns",
+				icon: <Icon icon="solar:chart-bold-duotone" size="24" />,
+			},
+			{
+				title: "Commissions",
+				path: "/admin/commissions",
+				icon: <Icon icon="solar:dollar-bold-duotone" size="24" />,
+			},
+			{
+				title: "Payouts",
+				path: "/admin/payouts",
+				icon: <Icon icon="solar:card-transfer-bold-duotone" size="24" />,
+			},
+			{
+				title: "Reports",
+				path: "/admin/reports",
+				icon: <Icon icon="solar:document-bold-duotone" size="24" />,
+			},
+		],
+	},
+];
