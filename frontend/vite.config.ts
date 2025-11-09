@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
 
 			isProduction &&
 				visualizer({
-					open: true,
+					open: false, // Disable auto-open in Docker/CI environments
 					gzipSize: true,
 					brotliSize: true,
 					template: "treemap",
