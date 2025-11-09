@@ -13,7 +13,8 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 # Copy source code
 COPY . .
 
-# Build application
+# Build application for production
+ENV NODE_ENV=production
 RUN pnpm run build
 
 # Production stage
