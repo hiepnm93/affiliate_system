@@ -36,11 +36,16 @@ axiosInstance.interceptors.response.use(
 		}
 
 		// Handle template's default format: { status: 0, data: ..., message: ... }
-		const { status, data, message } = res.data;
-		if (status === ResultStatus.SUCCESS) {
-			return data;
+		if (res.data.status !== undefined) {
+			const { status, data, message } = res.data;
+			if (status === ResultStatus.SUCCESS) {
+				return data;
+			}
+			throw new Error(message || t("sys.api.apiRequestFailed"));
 		}
-		throw new Error(message || t("sys.api.apiRequestFailed"));
+
+		// Handle NestJS raw response (no wrapper) - directly return data
+		return res.data;
 	},
 	(error: AxiosError<any>) => {
 		const { response, message } = error || {};
