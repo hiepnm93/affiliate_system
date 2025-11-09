@@ -75,6 +75,25 @@ Once deployed, access:
 - **Database**: localhost:5432
 - **Redis**: localhost:6379
 
+## 🔑 Default Admin Credentials
+
+An admin account is automatically created during database migration:
+
+**Email**: `admin@affiliate.com`
+**Password**: `Admin@123456`
+
+⚠️ **IMPORTANT**: Change this password immediately after first login!
+
+### First Login Steps:
+1. Go to http://localhost/auth/login
+2. Login with admin credentials above
+3. Navigate to your profile/settings
+4. Change password to a strong, unique password
+
+### Other Account Types:
+- **Affiliate Account**: Register at http://localhost/auth/register?type=affiliate
+- **Customer Account**: Register at http://localhost/auth/register?type=customer
+
 ## 🔧 Configuration
 
 ### Environment Variables
