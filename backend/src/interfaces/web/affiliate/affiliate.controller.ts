@@ -8,10 +8,12 @@ import {
   Query,
   Res,
   HttpStatus,
+  Param,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { GenerateReferralCodeUseCase } from '../../../application/affiliate/generate-referral-code.use-case';
 import { TrackClickUseCase } from '../../../application/tracking/track-click.use-case';
+import { JwtAuthGuard } from '../../../infrastructure/auth/jwt-auth.guard';
 
 class BecomeAffiliateDto {
   parentReferralCode?: string;
@@ -24,13 +26,13 @@ export class AffiliateController {
     private readonly trackClickUseCase: TrackClickUseCase,
   ) {}
 
-  // This endpoint would be protected with JWT guard in real implementation
   @Post('become-affiliate')
+  @UseGuards(JwtAuthGuard)
   async becomeAffiliate(
     @Body() dto: BecomeAffiliateDto,
     @Request() req: any,
   ) {
-    const userId = req.user?.sub || 1; // Mock user ID for now
+    const userId = req.user.userId;
 
     const affiliate = await this.generateReferralCodeUseCase.execute(
       userId,
@@ -48,7 +50,7 @@ export class AffiliateController {
 
   @Get('r/:code')
   async trackReferralClick(
-    @Query('code') code: string,
+    @Param('code') code: string,
     @Request() req: any,
     @Res() res: Response,
   ) {
@@ -70,8 +72,9 @@ export class AffiliateController {
   }
 
   @Get('me/code')
+  @UseGuards(JwtAuthGuard)
   async getMyReferralCode(@Request() req: any) {
-    const userId = req.user?.sub || 1; // Mock user ID for now
+    const userId = req.user.userId;
 
     const affiliate = await this.generateReferralCodeUseCase.execute(userId);
 
