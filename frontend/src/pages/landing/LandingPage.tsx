@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { Button } from '@/ui/button';
 import { Card } from '@/ui/card';
 import { Icon } from '@/components/icon';
@@ -64,7 +64,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <main className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -83,10 +83,10 @@ export default function LandingPage() {
             <p className="mx-auto mt-6 max-w-2xl text-xl text-gray-500">
               Join thousands of satisfied users and start earning rewards today
             </p>
-          </motion.div>
+          </m.div>
 
           {/* Dual Flow Cards */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -174,10 +174,10 @@ export default function LandingPage() {
                 </Button>
               </div>
             </Card>
-          </motion.div>
+          </m.div>
 
           {/* Features Section */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -213,7 +213,7 @@ export default function LandingPage() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </main>
 

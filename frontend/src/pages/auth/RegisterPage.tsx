@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useForm } from 'react-hook-form';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { Button } from '@/ui/button';
 import { Input } from '@/ui/input';
 import { Card } from '@/ui/card';
@@ -109,7 +109,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary-50 via-white to-secondary-50 px-4 py-12">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -279,7 +279,7 @@ export default function RegisterPage() {
             </Button>
           </div>
         </Card>
-      </motion.div>
+      </m.div>
     </div>
   );
 }
