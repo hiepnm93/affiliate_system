@@ -30,7 +30,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
     try {
-      await signIn({ username: data.email, password: data.password });
+      await signIn({ email: data.email, password: data.password });
       toast.success('Login successful!');
       navigate('/dashboard/affiliate');
     } catch (error: any) {
