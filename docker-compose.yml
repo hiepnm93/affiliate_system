@@ -57,12 +57,19 @@ services:
       NODE_ENV: ${NODE_ENV:-production}
       PORT: ${BACKEND_PORT:-3000}
 
-      # Database
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USERNAME: ${POSTGRES_USER:-postgres}
-      DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      DB_DATABASE: ${POSTGRES_DB:-affiliate_db}
+      # Database - Master (for replication mode)
+      DB_MASTER_HOST: postgres
+      DB_MASTER_PORT: 5432
+      DB_MASTER_USER: ${POSTGRES_USER:-postgres}
+      DB_MASTER_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      DB_MASTER_NAME: ${POSTGRES_DB:-affiliate_db}
+
+      # Database - Slave (same as master for single instance)
+      DB_SLAVE_HOST: postgres
+      DB_SLAVE_PORT: 5432
+      DB_SLAVE_USER: ${POSTGRES_USER:-postgres}
+      DB_SLAVE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      DB_SLAVE_NAME: ${POSTGRES_DB:-affiliate_db}
 
       # Redis
       REDIS_HOST: redis
