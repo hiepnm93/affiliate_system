@@ -3,13 +3,12 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install git (required for lefthook in preinstall)
-RUN apk add --no-cache git
-
 # Install dependencies
 COPY package.json pnpm-lock.yaml ./
 RUN npm install -g pnpm@10.8.0
-RUN pnpm install --frozen-lockfile
+
+# Install dependencies (skip scripts - lefthook not needed in Docker build)
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Copy source code
 COPY . .

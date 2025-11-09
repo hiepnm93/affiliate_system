@@ -3,6 +3,9 @@ FROM node:22.20.0-alpine AS builder
 
 WORKDIR /app
 
+# Install git (required for husky in prepare script)
+RUN apk add --no-cache git
+
 # Copy package files
 COPY package*.json ./
 
@@ -26,8 +29,8 @@ RUN apk add --no-cache dumb-init
 # Copy package files
 COPY package*.json ./
 
-# Install only production dependencies
-RUN npm ci --only=production && npm cache clean --force
+# Install only production dependencies (skip scripts to avoid husky error)
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
