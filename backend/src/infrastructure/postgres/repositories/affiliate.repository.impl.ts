@@ -34,7 +34,9 @@ export class AffiliateRepositoryImpl implements IAffiliateRepository {
     affiliate: Omit<AffiliateEntity, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<AffiliateEntity> {
     const ormEntity = this.repository.create(affiliate as any);
-    const savedEntity = (await this.repository.save(ormEntity)) as unknown as AffiliateOrmEntity;
+    const savedEntity = (await this.repository.save(
+      ormEntity,
+    )) as unknown as AffiliateOrmEntity;
     return AffiliateMapper.toDomain(savedEntity);
   }
 

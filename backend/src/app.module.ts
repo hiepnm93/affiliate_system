@@ -9,6 +9,7 @@ import { AuthModule } from './interfaces/web/auth/auth.module';
 import { AffiliateModule } from './interfaces/web/affiliate/affiliate.module';
 import { AdminModule } from './interfaces/web/admin/admin.module';
 import { WebhookModule } from './interfaces/web/webhook/webhook.module';
+import { HealthModule } from './health/health.module';
 
 // Sample Module (can be removed later)
 import { SampleWebModule } from './interfaces/web/sample_control.module';
@@ -20,6 +21,7 @@ import { SampleWebModule } from './interfaces/web/sample_control.module';
       envFilePath: '.env',
     }),
     TypeOrmModule.forRoot(ormconfig),
+    HealthModule,
     AuthModule,
     AffiliateModule,
     AdminModule,

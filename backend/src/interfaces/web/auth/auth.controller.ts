@@ -1,17 +1,9 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { RegisterUserUseCase } from '../../../application/auth/register-user.use-case';
-import {
-  LoginUseCase,
-  LoginDto,
-} from '../../../application/auth/login.use-case';
+import { LoginUseCase } from '../../../application/auth/login.use-case';
 import { TrackSignupUseCase } from '../../../application/tracking/track-signup.use-case';
-
-class RegisterDto {
-  email: string;
-  password: string;
-  referralCode?: string;
-  cookieId?: string;
-}
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
