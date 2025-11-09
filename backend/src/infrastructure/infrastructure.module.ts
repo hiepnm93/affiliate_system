@@ -10,6 +10,7 @@ import { ReferralEventOrmEntity } from './postgres/entities/referral-event.orm-e
 import { CampaignOrmEntity } from './postgres/entities/campaign.orm-entity';
 import { TransactionOrmEntity } from './postgres/entities/transaction.orm-entity';
 import { CommissionOrmEntity } from './postgres/entities/commission.orm-entity';
+import { PayoutOrmEntity } from './postgres/entities/payout.orm-entity';
 
 // Repository Implementations
 import { UserRepositoryImpl } from './postgres/repositories/user.repository.impl';
@@ -19,6 +20,7 @@ import { ReferralEventRepositoryImpl } from './postgres/repositories/referral-ev
 import { CampaignRepositoryImpl } from './postgres/repositories/campaign.repository.impl';
 import { TransactionRepositoryImpl } from './postgres/repositories/transaction.repository.impl';
 import { CommissionRepositoryImpl } from './postgres/repositories/commission.repository.impl';
+import { PayoutRepositoryImpl } from './postgres/repositories/payout.repository.impl';
 
 // Repository Tokens
 import { USER_REPOSITORY } from '../domains/user/repositories/user.repository.interface';
@@ -28,6 +30,7 @@ import { REFERRAL_EVENT_REPOSITORY } from '../domains/affiliate/repositories/ref
 import { CAMPAIGN_REPOSITORY } from '../domains/campaign/repositories/campaign.repository.interface';
 import { TRANSACTION_REPOSITORY } from '../domains/transaction/repositories/transaction.repository.interface';
 import { COMMISSION_REPOSITORY } from '../domains/commission/repositories/commission.repository.interface';
+import { PAYOUT_REPOSITORY } from '../domains/payout/repositories/payout.repository.interface';
 
 // Services
 import { TrackingService } from './redis/tracking.service';
@@ -43,6 +46,7 @@ import { TrackingService } from './redis/tracking.service';
       CampaignOrmEntity,
       TransactionOrmEntity,
       CommissionOrmEntity,
+      PayoutOrmEntity,
     ]),
   ],
   providers: [
@@ -81,6 +85,11 @@ import { TrackingService } from './redis/tracking.service';
       provide: COMMISSION_REPOSITORY,
       useClass: CommissionRepositoryImpl,
     },
+    // Payout Repository
+    {
+      provide: PAYOUT_REPOSITORY,
+      useClass: PayoutRepositoryImpl,
+    },
     // Redis Tracking Service
     TrackingService,
   ],
@@ -92,6 +101,7 @@ import { TrackingService } from './redis/tracking.service';
     CAMPAIGN_REPOSITORY,
     TRANSACTION_REPOSITORY,
     COMMISSION_REPOSITORY,
+    PAYOUT_REPOSITORY,
     TrackingService,
   ],
 })

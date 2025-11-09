@@ -12,6 +12,7 @@ import { CommissionStatus } from '../../../domains/commission/entities/commissio
 import { AffiliateOrmEntity } from './affiliate.orm-entity';
 import { TransactionOrmEntity } from './transaction.orm-entity';
 import { CampaignOrmEntity } from './campaign.orm-entity';
+import { PayoutOrmEntity } from './payout.orm-entity';
 
 @Entity('commissions')
 @Index(['affiliateId', 'status'])
@@ -61,6 +62,12 @@ export class CommissionOrmEntity {
 
   @Column({ nullable: true })
   payoutId: number | null;
+
+  @ManyToOne(() => PayoutOrmEntity, (payout) => payout.commissions, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'payoutId' })
+  payout: PayoutOrmEntity | null;
 
   @CreateDateColumn()
   createdAt: Date;

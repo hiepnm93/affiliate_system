@@ -26,6 +26,13 @@ import { CalculateCommissionUseCase } from './commission/calculate-commission.us
 import { ApproveCommissionUseCase } from './commission/approve-commission.use-case';
 import { RejectCommissionUseCase } from './commission/reject-commission.use-case';
 
+// Payout Use Cases
+import { RequestPayoutUseCase } from './payout/request-payout.use-case';
+import { ProcessPayoutUseCase } from './payout/process-payout.use-case';
+
+// Reports Use Cases
+import { GetSystemReportsUseCase } from './reports/get-system-reports.use-case';
+
 @Module({
   imports: [
     InfrastructureModule,
@@ -62,6 +69,11 @@ import { RejectCommissionUseCase } from './commission/reject-commission.use-case
     CalculateCommissionUseCase,
     ApproveCommissionUseCase,
     RejectCommissionUseCase,
+    // Payout Use Cases
+    RequestPayoutUseCase,
+    ProcessPayoutUseCase,
+    // Reports Use Cases
+    GetSystemReportsUseCase,
   ],
   exports: [
     RegisterUserUseCase,
@@ -75,6 +87,9 @@ import { RejectCommissionUseCase } from './commission/reject-commission.use-case
     CalculateCommissionUseCase,
     ApproveCommissionUseCase,
     RejectCommissionUseCase,
+    RequestPayoutUseCase,
+    ProcessPayoutUseCase,
+    GetSystemReportsUseCase,
   ],
 })
 export class ApplicationModule {}
