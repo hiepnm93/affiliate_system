@@ -25,7 +25,7 @@ export class ReferralEventRepositoryImpl implements IReferralEventRepository {
     event: Omit<ReferralEventEntity, 'id' | 'timestamp'>,
   ): Promise<ReferralEventEntity> {
     const ormEntity = this.repository.create(event as any);
-    const savedEntity = await this.repository.save(ormEntity);
+    const savedEntity = (await this.repository.save(ormEntity)) as any;
     return ReferralEventMapper.toDomain(savedEntity);
   }
 

@@ -1,6 +1,9 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { RegisterUserUseCase } from '../../../application/auth/register-user.use-case';
-import { LoginUseCase, LoginDto } from '../../../application/auth/login.use-case';
+import {
+  LoginUseCase,
+  LoginDto,
+} from '../../../application/auth/login.use-case';
 import { TrackSignupUseCase } from '../../../application/tracking/track-signup.use-case';
 
 class RegisterDto {

@@ -38,7 +38,8 @@ export class RecordTransactionUseCase {
       dto.metadata || {},
     );
 
-    const savedTransaction = await this.transactionRepository.create(transaction);
+    const savedTransaction =
+      await this.transactionRepository.create(transaction);
 
     // Mark as completed
     savedTransaction.complete();

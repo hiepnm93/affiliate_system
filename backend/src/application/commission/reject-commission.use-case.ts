@@ -18,7 +18,9 @@ export class RejectCommissionUseCase {
   ) {}
 
   async execute(dto: RejectCommissionDto): Promise<CommissionEntity> {
-    const commission = await this.commissionRepository.findById(dto.commissionId);
+    const commission = await this.commissionRepository.findById(
+      dto.commissionId,
+    );
     if (!commission) {
       throw new NotFoundException('Commission not found');
     }

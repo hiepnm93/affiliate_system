@@ -40,20 +40,25 @@ export class CalculateCommissionUseCase {
     private readonly commissionRepository: ICommissionRepository,
     private readonly configService: ConfigService,
   ) {
-    this.maxAffiliateLevel = this.configService.get<number>('MAX_AFFILIATE_LEVELS', 5);
+    this.maxAffiliateLevel = this.configService.get<number>(
+      'MAX_AFFILIATE_LEVELS',
+      5,
+    );
   }
 
   async execute(transactionId: number): Promise<CommissionEntity[]> {
-    // 1. Get transaction
-    const transaction = await this.transactionRepository.findById(transactionId);
-    if (!transaction) {
-      throw new NotFoundException('Transaction not found');
-    }
-
-    // Check if commissions already calculated
-    const existingCommissions = await this.commissionRepository.findByTransactionId(transactionId);
+    // Check if commissions already calculated (optimization)
+    const existingCommissions =
+      await this.commissionRepository.findByTransactionId(transactionId);
     if (existingCommissions.length > 0) {
       return existingCommissions; // Already calculated
+    }
+
+    // 1. Get transaction
+    const transaction =
+      await this.transactionRepository.findById(transactionId);
+    if (!transaction) {
+      throw new NotFoundException('Transaction not found');
     }
 
     // 2. Get referred user
@@ -79,9 +84,16 @@ export class CalculateCommissionUseCase {
     );
 
     // 5. Calculate commissions for each level
-    const commissionsToCreate: Omit<CommissionEntity, 'id' | 'createdAt' | 'updatedAt'>[] = [];
+    const commissionsToCreate: Omit<
+      CommissionEntity,
+      'id' | 'createdAt' | 'updatedAt'
+    >[] = [];
 
-    for (let level = 1; level <= Math.min(affiliateChain.length, this.maxAffiliateLevel); level++) {
+    for (
+      let level = 1;
+      level <= Math.min(affiliateChain.length, this.maxAffiliateLevel);
+      level++
+    ) {
       const affiliate = affiliateChain[level - 1];
 
       // Get commission percentage/amount for this level

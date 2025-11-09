@@ -27,7 +27,7 @@ export class UserRepositoryImpl implements IUserRepository {
     user: Omit<UserEntity, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<UserEntity> {
     const ormEntity = this.repository.create(user as any);
-    const savedEntity = await this.repository.save(ormEntity);
+    const savedEntity = (await this.repository.save(ormEntity)) as any;
     return UserMapper.toDomain(savedEntity);
   }
 

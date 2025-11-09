@@ -1,8 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateAffiliateTables1731147600000
-  implements MigrationInterface
-{
+export class CreateAffiliateTables1731147600000 implements MigrationInterface {
   name = 'CreateAffiliateTables1731147600000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {

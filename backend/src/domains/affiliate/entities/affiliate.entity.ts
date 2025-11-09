@@ -39,7 +39,6 @@ export class AffiliateEntity {
     referralCode: string,
     parentAffiliateId: number | null = null,
   ): Omit<AffiliateEntity, 'id' | 'createdAt' | 'updatedAt'> {
-    const now = new Date();
     return {
       userId,
       referralCode,

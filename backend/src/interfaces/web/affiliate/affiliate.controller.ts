@@ -5,7 +5,6 @@ import {
   Body,
   UseGuards,
   Request,
-  Query,
   Res,
   HttpStatus,
   Param,
@@ -28,10 +27,7 @@ export class AffiliateController {
 
   @Post('become-affiliate')
   @UseGuards(JwtAuthGuard)
-  async becomeAffiliate(
-    @Body() dto: BecomeAffiliateDto,
-    @Request() req: any,
-  ) {
+  async becomeAffiliate(@Body() dto: BecomeAffiliateDto, @Request() req: any) {
     const userId = req.user.userId;
 
     const affiliate = await this.generateReferralCodeUseCase.execute(

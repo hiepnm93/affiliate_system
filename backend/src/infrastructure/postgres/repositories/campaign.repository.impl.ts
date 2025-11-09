@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import { ICampaignRepository } from '../../../domains/campaign/repositories/campaign.repository.interface';
-import { CampaignEntity, CampaignStatus } from '../../../domains/campaign/entities/campaign.entity';
+import {
+  CampaignEntity,
+  CampaignStatus,
+} from '../../../domains/campaign/entities/campaign.entity';
 import { CampaignOrmEntity } from '../entities/campaign.orm-entity';
 import { CampaignMapper } from '../mappers/campaign.mapper';
 
@@ -44,7 +47,7 @@ export class CampaignRepositoryImpl implements ICampaignRepository {
     campaign: Omit<CampaignEntity, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<CampaignEntity> {
     const ormEntity = this.repository.create(campaign as any);
-    const savedEntity = await this.repository.save(ormEntity);
+    const savedEntity = (await this.repository.save(ormEntity)) as any;
     return CampaignMapper.toDomain(savedEntity);
   }
 

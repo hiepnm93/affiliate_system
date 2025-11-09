@@ -6,7 +6,11 @@ import {
   UpdateDateColumn,
   Index,
 } from 'typeorm';
-import { RewardType, CampaignStatus, MultiLevelConfig } from '../../../domains/campaign/entities/campaign.entity';
+import {
+  RewardType,
+  CampaignStatus,
+  MultiLevelConfig,
+} from '../../../domains/campaign/entities/campaign.entity';
 
 @Entity('campaigns')
 export class CampaignOrmEntity {

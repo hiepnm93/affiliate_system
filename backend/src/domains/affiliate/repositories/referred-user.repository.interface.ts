@@ -5,8 +5,13 @@ export interface IReferredUserRepository {
   findByEmail(email: string): Promise<ReferredUserEntity | null>;
   findByUserId(userId: number): Promise<ReferredUserEntity | null>;
   findByCookieId(cookieId: string): Promise<ReferredUserEntity | null>;
-  create(referredUser: Omit<ReferredUserEntity, 'id' | 'createdAt' | 'updatedAt'>): Promise<ReferredUserEntity>;
-  update(id: number, referredUser: Partial<ReferredUserEntity>): Promise<ReferredUserEntity | null>;
+  create(
+    referredUser: Omit<ReferredUserEntity, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<ReferredUserEntity>;
+  update(
+    id: number,
+    referredUser: Partial<ReferredUserEntity>,
+  ): Promise<ReferredUserEntity | null>;
   findByAffiliateId(affiliateId: number): Promise<ReferredUserEntity[]>;
 }
 

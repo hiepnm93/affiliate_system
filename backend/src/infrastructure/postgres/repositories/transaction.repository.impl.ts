@@ -18,7 +18,9 @@ export class TransactionRepositoryImpl implements ITransactionRepository {
     return ormEntity ? TransactionMapper.toDomain(ormEntity) : null;
   }
 
-  async findByExternalId(externalId: string): Promise<TransactionEntity | null> {
+  async findByExternalId(
+    externalId: string,
+  ): Promise<TransactionEntity | null> {
     const ormEntity = await this.repository.findOne({ where: { externalId } });
     return ormEntity ? TransactionMapper.toDomain(ormEntity) : null;
   }
@@ -37,7 +39,7 @@ export class TransactionRepositoryImpl implements ITransactionRepository {
     transaction: Omit<TransactionEntity, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<TransactionEntity> {
     const ormEntity = this.repository.create(transaction as any);
-    const savedEntity = await this.repository.save(ormEntity);
+    const savedEntity = (await this.repository.save(ormEntity)) as any;
     return TransactionMapper.toDomain(savedEntity);
   }
 

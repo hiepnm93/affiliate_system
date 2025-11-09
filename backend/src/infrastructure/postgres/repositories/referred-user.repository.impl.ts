@@ -37,7 +37,7 @@ export class ReferredUserRepositoryImpl implements IReferredUserRepository {
     referredUser: Omit<ReferredUserEntity, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<ReferredUserEntity> {
     const ormEntity = this.repository.create(referredUser as any);
-    const savedEntity = await this.repository.save(ormEntity);
+    const savedEntity = (await this.repository.save(ormEntity)) as any;
     return ReferredUserMapper.toDomain(savedEntity);
   }
 

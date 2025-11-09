@@ -33,7 +33,10 @@ import { RejectCommissionUseCase } from './commission/reject-commission.use-case
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET', 'your-secret-key-change-this-in-production'),
+        secret: configService.get<string>(
+          'JWT_SECRET',
+          'your-secret-key-change-this-in-production',
+        ),
         signOptions: {
           expiresIn: configService.get<string>('JWT_EXPIRES_IN', '7d'),
         },

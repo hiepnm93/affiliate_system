@@ -32,9 +32,7 @@ export class TrackingService {
     await this.redis.setex(key, this.cookieTTL, JSON.stringify(data));
   }
 
-  async getTrackingCookie(
-    cookieId: string,
-  ): Promise<TrackingCookie | null> {
+  async getTrackingCookie(cookieId: string): Promise<TrackingCookie | null> {
     const key = `tracking:${cookieId}`;
     const data = await this.redis.get(key);
     return data ? JSON.parse(data) : null;

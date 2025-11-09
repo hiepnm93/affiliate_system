@@ -37,7 +37,9 @@ export class CommissionRepositoryImpl implements ICommissionRepository {
     return ormEntities.map((entity) => CommissionMapper.toDomain(entity));
   }
 
-  async findByTransactionId(transactionId: number): Promise<CommissionEntity[]> {
+  async findByTransactionId(
+    transactionId: number,
+  ): Promise<CommissionEntity[]> {
     const ormEntities = await this.repository.find({
       where: { transactionId },
       order: { level: 'ASC' },
@@ -74,7 +76,7 @@ export class CommissionRepositoryImpl implements ICommissionRepository {
     commission: Omit<CommissionEntity, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<CommissionEntity> {
     const ormEntity = this.repository.create(commission as any);
-    const savedEntity = await this.repository.save(ormEntity);
+    const savedEntity = (await this.repository.save(ormEntity)) as any;
     return CommissionMapper.toDomain(savedEntity);
   }
 
