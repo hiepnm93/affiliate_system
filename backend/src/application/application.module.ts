@@ -14,6 +14,18 @@ import { GenerateReferralCodeUseCase } from './affiliate/generate-referral-code.
 import { TrackClickUseCase } from './tracking/track-click.use-case';
 import { TrackSignupUseCase } from './tracking/track-signup.use-case';
 
+// Campaign Use Cases
+import { CreateCampaignUseCase } from './campaign/create-campaign.use-case';
+import { GetActiveCampaignUseCase } from './campaign/get-active-campaign.use-case';
+
+// Transaction Use Cases
+import { RecordTransactionUseCase } from './transaction/record-transaction.use-case';
+
+// Commission Use Cases
+import { CalculateCommissionUseCase } from './commission/calculate-commission.use-case';
+import { ApproveCommissionUseCase } from './commission/approve-commission.use-case';
+import { RejectCommissionUseCase } from './commission/reject-commission.use-case';
+
 @Module({
   imports: [
     InfrastructureModule,
@@ -38,6 +50,15 @@ import { TrackSignupUseCase } from './tracking/track-signup.use-case';
     // Tracking Use Cases
     TrackClickUseCase,
     TrackSignupUseCase,
+    // Campaign Use Cases
+    CreateCampaignUseCase,
+    GetActiveCampaignUseCase,
+    // Transaction Use Cases
+    RecordTransactionUseCase,
+    // Commission Use Cases
+    CalculateCommissionUseCase,
+    ApproveCommissionUseCase,
+    RejectCommissionUseCase,
   ],
   exports: [
     RegisterUserUseCase,
@@ -45,6 +66,12 @@ import { TrackSignupUseCase } from './tracking/track-signup.use-case';
     GenerateReferralCodeUseCase,
     TrackClickUseCase,
     TrackSignupUseCase,
+    CreateCampaignUseCase,
+    GetActiveCampaignUseCase,
+    RecordTransactionUseCase,
+    CalculateCommissionUseCase,
+    ApproveCommissionUseCase,
+    RejectCommissionUseCase,
   ],
 })
 export class ApplicationModule {}
