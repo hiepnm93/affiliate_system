@@ -14,22 +14,36 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
 	(config) => {
-		config.headers.Authorization = "Bearer Token";
+		// Get access token from userStore
+		const accessToken = userStore.getState().userToken.accessToken;
+		if (accessToken) {
+			config.headers.Authorization = `Bearer ${accessToken}`;
+		}
 		return config;
 	},
 	(error) => Promise.reject(error),
 );
 
 axiosInstance.interceptors.response.use(
-	(res: AxiosResponse<Result<any>>) => {
+	(res: AxiosResponse) => {
 		if (!res.data) throw new Error(t("sys.api.apiRequestFailed"));
+
+		// Handle our backend response format: { success: true, data: ... }
+		if (res.data.success !== undefined) {
+			if (res.data.success) {
+				return res.data.data;
+			}
+			throw new Error(res.data.message || t("sys.api.apiRequestFailed"));
+		}
+
+		// Handle template's default format: { status: 0, data: ..., message: ... }
 		const { status, data, message } = res.data;
 		if (status === ResultStatus.SUCCESS) {
 			return data;
 		}
 		throw new Error(message || t("sys.api.apiRequestFailed"));
 	},
-	(error: AxiosError<Result>) => {
+	(error: AxiosError<any>) => {
 		const { response, message } = error || {};
 		const errMsg = response?.data?.message || message || t("sys.api.errorMessage");
 		toast.error(errMsg, { position: "top-center" });
