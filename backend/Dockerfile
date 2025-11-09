@@ -23,14 +23,20 @@ FROM node:22.20.0-alpine
 
 WORKDIR /app
 
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
+# Install build dependencies and dumb-init
+RUN apk add --no-cache dumb-init python3 make g++
 
 # Copy package files
 COPY package*.json ./
 
 # Install only production dependencies (skip scripts to avoid husky error)
-RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
+RUN npm ci --omit=dev --ignore-scripts
+
+# Rebuild native modules for Alpine Linux
+RUN npm rebuild bcrypt --build-from-source
+
+# Clean up build dependencies and cache
+RUN apk del python3 make g++ && npm cache clean --force
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
