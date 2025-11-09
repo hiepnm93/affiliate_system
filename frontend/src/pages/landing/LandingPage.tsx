@@ -26,7 +26,7 @@ export default function LandingPage() {
   const trackReferralClick = async (refCode: string) => {
     try {
       // Send tracking request to backend
-      await fetch(\`\${import.meta.env.VITE_APP_API_BASE_URL}/affiliate/track/click\`, {
+      await fetch(`${import.meta.env.VITE_APP_API_BASE_URL}/affiliate/track/click`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ referralCode: refCode }),
@@ -37,11 +37,11 @@ export default function LandingPage() {
   };
 
   const handleSignupAsCustomer = () => {
-    navigate(\`/auth/register?type=customer&ref=\${referralCode}\`);
+    navigate(`/auth/register?type=customer&ref=${referralCode}`);
   };
 
   const handleJoinAsAffiliate = () => {
-    navigate(\`/auth/register?type=affiliate&ref=\${referralCode}\`);
+    navigate(`/auth/register?type=affiliate&ref=${referralCode}`);
   };
 
   return (
