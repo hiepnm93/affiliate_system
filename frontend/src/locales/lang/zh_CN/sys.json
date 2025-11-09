@@ -85,6 +85,12 @@
 		},
 		"nav": {
 			"dashboard": "仪表板",
+			"payouts": "支付",
+			"campaigns": "活动",
+			"commissions": "佣金",
+			"reports": "报告",
+			"affiliate_system": "联盟系统",
+			"admin": "管理",
 			"pages": "页面",
 			"others": "其他",
 			"ui": "UI",

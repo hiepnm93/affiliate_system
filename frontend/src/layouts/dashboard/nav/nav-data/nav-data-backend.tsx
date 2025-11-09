@@ -4,40 +4,40 @@ import type { NavProps } from "@/components/nav";
 // Backend nav data - same as frontend for Affiliate System
 export const backendNavData: NavProps["data"] = [
 	{
-		name: "Affiliate System",
+		name: "sys.nav.affiliate_system",
 		items: [
 			{
-				title: "Dashboard",
+				title: "sys.nav.dashboard",
 				path: "/affiliate",
 				icon: <Icon icon="solar:graph-bold-duotone" size="24" />,
 			},
 			{
-				title: "Payouts",
+				title: "sys.nav.payouts",
 				path: "/affiliate/payouts",
 				icon: <Icon icon="solar:wallet-money-bold-duotone" size="24" />,
 			},
 		],
 	},
 	{
-		name: "Admin",
+		name: "sys.nav.admin",
 		items: [
 			{
-				title: "Campaigns",
+				title: "sys.nav.campaigns",
 				path: "/admin/campaigns",
 				icon: <Icon icon="solar:chart-bold-duotone" size="24" />,
 			},
 			{
-				title: "Commissions",
+				title: "sys.nav.commissions",
 				path: "/admin/commissions",
 				icon: <Icon icon="solar:dollar-bold-duotone" size="24" />,
 			},
 			{
-				title: "Payouts",
+				title: "sys.nav.payouts",
 				path: "/admin/payouts",
 				icon: <Icon icon="solar:card-transfer-bold-duotone" size="24" />,
 			},
 			{
-				title: "Reports",
+				title: "sys.nav.reports",
 				path: "/admin/reports",
 				icon: <Icon icon="solar:document-bold-duotone" size="24" />,
 			},
