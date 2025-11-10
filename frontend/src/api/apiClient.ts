@@ -4,7 +4,6 @@ import userStore from "@/store/userStore";
 import axios, { type AxiosRequestConfig, type AxiosError, type AxiosResponse } from "axios";
 import { toast } from "sonner";
 import { ResultStatus } from "#/enum";
-
 const axiosInstance = axios.create({
 	baseURL: GLOBAL_CONFIG.apiBaseUrl,
 	timeout: 50000,
