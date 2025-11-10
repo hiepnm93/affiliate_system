@@ -1,7 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
+import {
+  IAffiliateRepository,
+  AFFILIATE_REPOSITORY,
+} from '../../domains/affiliate/repositories/affiliate.repository.interface';
 
 export interface JwtPayload {
   sub: number;
@@ -11,7 +15,11 @@ export interface JwtPayload {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    @Inject(AFFILIATE_REPOSITORY)
+    private affiliateRepository: IAffiliateRepository,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -27,10 +35,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Invalid token');
     }
 
+    // Get affiliate ID if user is an affiliate
+    let affiliateId: number | undefined;
+    const affiliate = await this.affiliateRepository.findByUserId(payload.sub);
+    if (affiliate) {
+      affiliateId = affiliate.id;
+    }
+
     return {
       userId: payload.sub,
       email: payload.email,
       role: payload.role,
+      affiliateId,
     };
   }
 }
