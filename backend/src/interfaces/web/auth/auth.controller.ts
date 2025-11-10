@@ -1,4 +1,5 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { RegisterUserUseCase } from '../../../application/auth/register-user.use-case';
 import { LoginUseCase } from '../../../application/auth/login.use-case';
 import { TrackSignupUseCase } from '../../../application/tracking/track-signup.use-case';
@@ -11,6 +12,7 @@ export class AuthController {
     private readonly registerUseCase: RegisterUserUseCase,
     private readonly loginUseCase: LoginUseCase,
     private readonly trackSignupUseCase: TrackSignupUseCase,
+    private readonly jwtService: JwtService,
   ) {}
 
   @Post('register')
@@ -33,15 +35,23 @@ export class AuthController {
       });
     }
 
-    // Return user without password
+    // Generate JWT token
+    const payload = { sub: user.id, email: user.email, role: user.role };
+    const accessToken = this.jwtService.sign(payload);
+
+    // Return access token and user
     return {
-      id: user.id,
-      email: user.email,
-      role: user.role,
+      accessToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
     };
   }
 
   @Post('login')
+  @HttpCode(200)
   async login(@Body() dto: LoginDto) {
     return this.loginUseCase.execute(dto);
   }

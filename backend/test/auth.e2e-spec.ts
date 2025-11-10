@@ -87,7 +87,7 @@ describe('Auth API (e2e)', () => {
         .send(registerDto)
         .expect(409);
 
-      expect(response.body.message).toContain('already exists');
+      expect(response.body.message).toContain('already registered');
     });
 
     it('should fail with invalid email', async () => {

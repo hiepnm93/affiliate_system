@@ -76,6 +76,7 @@ import { GetSystemReportsUseCase } from './reports/get-system-reports.use-case';
     GetSystemReportsUseCase,
   ],
   exports: [
+    JwtModule,
     RegisterUserUseCase,
     LoginUseCase,
     GenerateReferralCodeUseCase,
