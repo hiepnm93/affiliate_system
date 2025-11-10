@@ -8,10 +8,15 @@ import { UserOrmEntity } from '../src/infrastructure/postgres/entities/user.orm-
 import { AffiliateOrmEntity } from '../src/infrastructure/postgres/entities/affiliate.orm-entity';
 import { CommissionOrmEntity } from '../src/infrastructure/postgres/entities/commission.orm-entity';
 import { PayoutOrmEntity } from '../src/infrastructure/postgres/entities/payout.orm-entity';
+import { CampaignOrmEntity } from '../src/infrastructure/postgres/entities/campaign.orm-entity';
+import { TransactionOrmEntity } from '../src/infrastructure/postgres/entities/transaction.orm-entity';
+import { ReferredUserOrmEntity } from '../src/infrastructure/postgres/entities/referred-user.orm-entity';
 import { UserRole } from '../src/domains/user/entities/user.entity';
 import { AffiliateStatus } from '../src/domains/affiliate/entities/affiliate.entity';
 import { CommissionStatus } from '../src/domains/commission/entities/commission.entity';
 import { PayoutStatus, PaymentMethod } from '../src/domains/payout/entities/payout.entity';
+import { CampaignStatus, RewardType } from '../src/domains/campaign/entities/campaign.entity';
+import { TransactionStatus } from '../src/domains/transaction/entities/transaction.entity';
 
 describe('Affiliate API (e2e)', () => {
   let app: INestApplication;
@@ -19,6 +24,9 @@ describe('Affiliate API (e2e)', () => {
   let affiliateRepository: Repository<AffiliateOrmEntity>;
   let commissionRepository: Repository<CommissionOrmEntity>;
   let payoutRepository: Repository<PayoutOrmEntity>;
+  let campaignRepository: Repository<CampaignOrmEntity>;
+  let transactionRepository: Repository<TransactionOrmEntity>;
+  let referredUserRepository: Repository<ReferredUserOrmEntity>;
   let affiliateToken: string;
   let affiliateUser: UserOrmEntity;
   let affiliate: AffiliateOrmEntity;
@@ -52,6 +60,15 @@ describe('Affiliate API (e2e)', () => {
     payoutRepository = moduleFixture.get<Repository<PayoutOrmEntity>>(
       getRepositoryToken(PayoutOrmEntity),
     );
+    campaignRepository = moduleFixture.get<Repository<CampaignOrmEntity>>(
+      getRepositoryToken(CampaignOrmEntity),
+    );
+    transactionRepository = moduleFixture.get<Repository<TransactionOrmEntity>>(
+      getRepositoryToken(TransactionOrmEntity),
+    );
+    referredUserRepository = moduleFixture.get<Repository<ReferredUserOrmEntity>>(
+      getRepositoryToken(ReferredUserOrmEntity),
+    );
   });
 
   afterAll(async () => {
@@ -59,21 +76,23 @@ describe('Affiliate API (e2e)', () => {
   });
 
   beforeEach(async () => {
-    // Clear all tables
-    await payoutRepository.clear();
+    // Clear all tables (in reverse dependency order)
     await commissionRepository.clear();
+    await payoutRepository.clear();
+    await transactionRepository.clear();
+    await referredUserRepository.clear();
+    await campaignRepository.clear();
     await affiliateRepository.clear();
     await userRepository.clear();
 
-    // Create an affiliate user and get token
-    const registerResponse = await request(app.getHttpServer())
+    // Create an affiliate user
+    await request(app.getHttpServer())
       .post('/auth/register')
       .send({
         email: 'affiliate@example.com',
         password: 'password123',
       });
 
-    affiliateToken = registerResponse.body.accessToken;
     affiliateUser = await userRepository.findOne({
       where: { email: 'affiliate@example.com' },
     });
@@ -82,6 +101,16 @@ describe('Affiliate API (e2e)', () => {
     affiliateUser.role = UserRole.AFFILIATE;
     await userRepository.save(affiliateUser);
 
+    // Login again to get token with updated role
+    const loginResponse = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: 'affiliate@example.com',
+        password: 'password123',
+      });
+
+    affiliateToken = loginResponse.body.accessToken;
+
     // Create affiliate record
     affiliate = await affiliateRepository.save({
       userId: affiliateUser.id,
@@ -89,6 +118,45 @@ describe('Affiliate API (e2e)', () => {
       parentAffiliateId: null,
       tier: 1,
       status: AffiliateStatus.ACTIVE,
+    });
+
+    // Create test campaign
+    await campaignRepository.save({
+      id: 1,
+      name: 'Test Campaign',
+      startDate: new Date('2024-01-01'),
+      endDate: new Date('2025-12-31'),
+      rewardType: RewardType.PERCENTAGE,
+      rewardValue: 10,
+      multiLevelConfig: { levels: [{ level: 1, percentage: 10 }] },
+      cookieTTL: 30,
+      status: CampaignStatus.ACTIVE,
+    });
+
+    // Create test referred users
+    await referredUserRepository.save([
+      { id: 1, affiliateId: affiliate.id, email: 'ref1@example.com', referralCode: 'TEST123', userId: null, cookieId: null },
+      { id: 2, affiliateId: affiliate.id, email: 'ref2@example.com', referralCode: 'TEST123', userId: null, cookieId: null },
+      { id: 3, affiliateId: affiliate.id, email: 'ref3@example.com', referralCode: 'TEST123', userId: null, cookieId: null },
+    ]);
+
+    // Create test transactions
+    await transactionRepository.save([
+      { id: 1, referredUserId: 1, amount: 100, currency: 'USD', status: TransactionStatus.COMPLETED, externalId: 'tx1' },
+      { id: 2, referredUserId: 2, amount: 150, currency: 'USD', status: TransactionStatus.COMPLETED, externalId: 'tx2' },
+      { id: 3, referredUserId: 3, amount: 200, currency: 'USD', status: TransactionStatus.COMPLETED, externalId: 'tx3' },
+    ]);
+
+    // Create a test payout for commission references
+    await payoutRepository.save({
+      id: 1,
+      affiliateId: affiliate.id,
+      amount: 30.0,
+      paymentMethod: PaymentMethod.BANK_TRANSFER,
+      paymentDetails: JSON.stringify({ account: '123456' }),
+      status: PayoutStatus.PAID,
+      requestedAt: new Date(),
+      processedAt: new Date(),
     });
   });
 
@@ -299,7 +367,7 @@ describe('Affiliate API (e2e)', () => {
         .expect(200);
 
       expect(response.body.success).toBe(true);
-      expect(response.body.data).toHaveLength(2);
+      expect(response.body.data).toHaveLength(3); // 1 from global setup + 2 from test setup
       expect(response.body.data[0]).toHaveProperty('amount');
       expect(response.body.data[0]).toHaveProperty('status');
       expect(response.body.data[0]).toHaveProperty('paymentMethod');
@@ -329,14 +397,40 @@ describe('Affiliate API (e2e)', () => {
   });
 
   describe('POST /affiliate/payouts', () => {
+    beforeEach(async () => {
+      // Create approved commissions to give affiliate sufficient balance
+      await commissionRepository.save([
+        {
+          affiliateId: affiliate.id,
+          transactionId: 1,
+          campaignId: 1,
+          amount: 50.0,
+          level: 1,
+          status: CommissionStatus.APPROVED,
+          notes: null,
+          payoutId: null,
+        },
+        {
+          affiliateId: affiliate.id,
+          transactionId: 2,
+          campaignId: 1,
+          amount: 50.0,
+          level: 1,
+          status: CommissionStatus.APPROVED,
+          notes: null,
+          payoutId: null,
+        },
+      ]);
+    });
+
     it('should request a payout', async () => {
       const payoutDto = {
-        amount: 75.0,
-        paymentMethod: 'bank_transfer',
-        paymentDetails: {
+        amount: 70.0,
+        paymentMethod: PaymentMethod.BANK_TRANSFER,
+        paymentDetails: JSON.stringify({
           bankName: 'Test Bank',
           accountNumber: '123456789',
-        },
+        }),
       };
 
       const response = await request(app.getHttpServer())
@@ -347,7 +441,7 @@ describe('Affiliate API (e2e)', () => {
 
       expect(response.body.success).toBe(true);
       expect(response.body.data).toHaveProperty('id');
-      expect(response.body.data.amount).toBe(75.0);
+      expect(response.body.data.amount).toBe(70.0);
       expect(response.body.data.status).toBe(PayoutStatus.PENDING);
     });
 
