@@ -6,10 +6,18 @@ import { Outlet, type RouteObject } from "react-router";
 const Page403 = lazy(() => import("@/pages/sys/error/Page403"));
 const Page404 = lazy(() => import("@/pages/sys/error/Page404"));
 const Page500 = lazy(() => import("@/pages/sys/error/Page500"));
+const LandingPage = lazy(() => import("@/pages/landing/LandingPage"));
 
 export const mainRoutes: RouteObject[] = [
 	{
 		path: "/",
+		element: (
+			<Suspense fallback={<LineLoading />}>
+				<LandingPage />
+			</Suspense>
+		),
+	},
+	{
 		element: (
 			<SimpleLayout>
 				<Suspense fallback={<LineLoading />}>

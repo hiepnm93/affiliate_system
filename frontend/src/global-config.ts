@@ -25,11 +25,12 @@ export type GlobalConfig = {
  * @warning
  * Please don't use the import.meta.env to get the configuration, use the GLOBAL_CONFIG instead
  */
+
 export const GLOBAL_CONFIG: GlobalConfig = {
-	appName: "Slash Admin",
+	appName: "Admin",
 	appVersion: packageJson.version,
-	defaultRoute: import.meta.env.VITE_APP_DEFAULT_ROUTE || "/workbench",
+	defaultRoute: import.meta.env.VITE_APP_DEFAULT_ROUTE || "/affiliate",
 	publicPath: import.meta.env.VITE_APP_PUBLIC_PATH || "/",
-	apiBaseUrl: import.meta.env.VITE_APP_API_BASE_URL || "/api",
+	apiBaseUrl: import.meta.env.VITE_APP_API_BASE_URL || "http://localhost:3000/api",
 	routerMode: import.meta.env.VITE_APP_ROUTER_MODE || "frontend",
 };

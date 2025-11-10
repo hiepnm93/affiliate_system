@@ -1,0 +1,65 @@
+# Dependencies
+node_modules
+.pnpm-store
+.npm
+
+# Build output
+dist
+build
+.next
+out
+
+# Cache and temp files
+.cache
+.turbo
+.vite
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage
+.nyc_output
+
+# Environment files (will be provided via docker-compose)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!README.md
+docs
+
+# Scripts (not needed in container)
+test-build.sh
+*.sh
+
+# Lefthook
+.lefthook
+lefthook.yml
+
+# Other
+.editorconfig
+.eslintcache
+.prettierignore
+tsconfig.tsbuildinfo

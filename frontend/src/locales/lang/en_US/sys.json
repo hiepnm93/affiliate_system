@@ -71,6 +71,12 @@
 		},
 		"nav": {
 			"dashboard": "Dashboard",
+			"payouts": "Payouts",
+			"campaigns": "Campaigns",
+			"commissions": "Commissions",
+			"reports": "Reports",
+			"affiliate_system": "Affiliate System",
+			"admin": "Admin",
 			"pages": "Pages",
 			"others": "Others",
 			"ui": "UI",
