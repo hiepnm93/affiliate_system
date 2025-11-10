@@ -21,7 +21,7 @@ export class UserOrmEntity {
   password: string;
 
   @Column({
-    type: 'enum',
+    type: process.env.NODE_ENV === 'test' ? 'text' : 'enum',
     enum: UserRole,
     default: UserRole.USER,
   })

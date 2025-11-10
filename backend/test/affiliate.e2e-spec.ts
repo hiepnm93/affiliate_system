@@ -11,7 +11,7 @@ import { PayoutOrmEntity } from '../src/infrastructure/postgres/entities/payout.
 import { UserRole } from '../src/domains/user/entities/user.entity';
 import { AffiliateStatus } from '../src/domains/affiliate/entities/affiliate.entity';
 import { CommissionStatus } from '../src/domains/commission/entities/commission.entity';
-import { PayoutStatus } from '../src/domains/payout/entities/payout.entity';
+import { PayoutStatus, PaymentMethod } from '../src/domains/payout/entities/payout.entity';
 
 describe('Affiliate API (e2e)', () => {
   let app: INestApplication;
@@ -269,30 +269,27 @@ describe('Affiliate API (e2e)', () => {
 
   describe('GET /affiliate/payouts', () => {
     beforeEach(async () => {
-      await payoutRepository.save([
-        {
-          affiliateId: affiliate.id,
-          amount: 50.0,
-          paymentMethod: 'bank_transfer',
-          paymentDetails: { account: '123456' },
-          status: PayoutStatus.PENDING,
-          requestedAt: new Date(),
-          processedAt: null,
-          adminNotes: null,
-          failureReason: null,
-        },
-        {
-          affiliateId: affiliate.id,
-          amount: 100.0,
-          paymentMethod: 'paypal',
-          paymentDetails: { email: 'affiliate@example.com' },
-          status: PayoutStatus.COMPLETED,
-          requestedAt: new Date(),
-          processedAt: new Date(),
-          adminNotes: 'Processed',
-          failureReason: null,
-        },
-      ]);
+      const payout1 = payoutRepository.create({
+        affiliateId: affiliate.id,
+        amount: 50.0,
+        paymentMethod: PaymentMethod.BANK_TRANSFER,
+        paymentDetails: JSON.stringify({ account: '123456' }),
+        status: PayoutStatus.PENDING,
+        requestedAt: new Date(),
+      });
+
+      const payout2 = payoutRepository.create({
+        affiliateId: affiliate.id,
+        amount: 100.0,
+        paymentMethod: PaymentMethod.PAYPAL,
+        paymentDetails: JSON.stringify({ email: 'affiliate@example.com' }),
+        status: PayoutStatus.PAID,
+        requestedAt: new Date(),
+        processedAt: new Date(),
+        adminNotes: 'Processed',
+      });
+
+      await payoutRepository.save([payout1, payout2]);
     });
 
     it('should get payout history', async () => {
