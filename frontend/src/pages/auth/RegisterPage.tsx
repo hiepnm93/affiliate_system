@@ -1,15 +1,16 @@
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
-import { useForm } from 'react-hook-form';
-import { m } from 'motion/react';
+
 import { Button } from '@/ui/button';
-import { Input } from '@/ui/input';
 import { Card } from '@/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
 import { Icon } from '@/components/icon';
-import { toast } from 'sonner';
-import apiClient from '@/api/apiClient';
+import { Input } from '@/ui/input';
 import affiliateService from '@/api/services/affiliateService';
+import apiClient from '@/api/apiClient';
+import { m } from 'motion/react';
+import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
 import { useUserActions } from '@/store/userStore';
 
 interface RegisterFormData {
@@ -79,7 +80,7 @@ export default function RegisterPage() {
         } as any);
 
         toast.success('Successfully registered as affiliate!');
-        navigate('/dashboard/affiliate');
+        navigate('/affiliate');
       } else {
         // Register as customer
         const response = await apiClient.post<{ user: any; token: string }>({

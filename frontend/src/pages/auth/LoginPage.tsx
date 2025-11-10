@@ -1,14 +1,15 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { useForm } from 'react-hook-form';
-import { m } from 'motion/react';
-import { Button } from '@/ui/button';
-import { Input } from '@/ui/input';
-import { Card } from '@/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/ui/form';
+
+import { Button } from '@/ui/button';
+import { Card } from '@/ui/card';
 import { Icon } from '@/components/icon';
-import { useSignIn } from '@/store/userStore';
+import { Input } from '@/ui/input';
+import { m } from 'motion/react';
 import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import { useSignIn } from '@/store/userStore';
+import { useState } from 'react';
 
 interface LoginFormData {
   email: string;
@@ -32,7 +33,7 @@ export default function LoginPage() {
     try {
       await signIn({ email: data.email, password: data.password });
       toast.success('Login successful!');
-      navigate('/dashboard/affiliate');
+      navigate('/affiliate');
     } catch (error: any) {
       toast.error(error?.message || 'Login failed');
     } finally {
