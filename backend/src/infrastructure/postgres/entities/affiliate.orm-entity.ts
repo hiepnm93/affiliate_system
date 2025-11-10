@@ -43,7 +43,7 @@ export class AffiliateOrmEntity {
   tier: number;
 
   @Column({
-    type: 'enum',
+    type: process.env.NODE_ENV === 'test' ? 'text' : 'enum',
     enum: AffiliateStatus,
     default: AffiliateStatus.ACTIVE,
   })

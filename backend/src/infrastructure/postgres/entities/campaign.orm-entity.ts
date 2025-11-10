@@ -20,16 +20,20 @@ export class CampaignOrmEntity {
   @Column()
   name: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: process.env.NODE_ENV === 'test' ? 'datetime' : 'timestamp',
+  })
   @Index()
   startDate: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({
+    type: process.env.NODE_ENV === 'test' ? 'datetime' : 'timestamp',
+  })
   @Index()
   endDate: Date;
 
   @Column({
-    type: 'enum',
+    type: process.env.NODE_ENV === 'test' ? 'text' : 'enum',
     enum: RewardType,
   })
   rewardType: RewardType;
@@ -37,14 +41,16 @@ export class CampaignOrmEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   rewardValue: number;
 
-  @Column({ type: 'jsonb' })
+  @Column({
+    type: process.env.NODE_ENV === 'test' ? 'simple-json' : 'jsonb',
+  })
   multiLevelConfig: MultiLevelConfig;
 
   @Column({ default: 30 })
   cookieTTL: number;
 
   @Column({
-    type: 'enum',
+    type: process.env.NODE_ENV === 'test' ? 'text' : 'enum',
     enum: CampaignStatus,
     default: CampaignStatus.ACTIVE,
   })

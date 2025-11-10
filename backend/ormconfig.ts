@@ -37,8 +37,8 @@ console.log('  POSTGRES_DB:', process.env.POSTGRES_DB);
 
 const config: TypeOrmModuleOptions = isTestEnv
   ? {
-      // Test environment - SQLite in memory
-      type: 'sqlite',
+      // Test environment - SQLite in memory (using better-sqlite3)
+      type: 'better-sqlite3',
       database: ':memory:',
       dropSchema: true,
       entities: [entitiesGlob],

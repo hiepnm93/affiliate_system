@@ -34,7 +34,7 @@ export class ReferralEventOrmEntity {
   referredUser: ReferredUserOrmEntity | null;
 
   @Column({
-    type: 'enum',
+    type: process.env.NODE_ENV === 'test' ? 'text' : 'enum',
     enum: ReferralEventType,
   })
   @Index()
@@ -52,7 +52,11 @@ export class ReferralEventOrmEntity {
   @Column({ nullable: true, type: 'text' })
   referrer: string | null;
 
-  @Column({ type: 'jsonb', default: {} })
+  @Column({
+    type: process.env.NODE_ENV === 'test' ? 'simple-json' : 'jsonb',
+    nullable: true,
+    ...(process.env.NODE_ENV !== 'test' && { default: {} }),
+  })
   metadata: Record<string, any>;
 
   @CreateDateColumn()

@@ -32,7 +32,7 @@ export class TransactionOrmEntity {
   currency: string;
 
   @Column({
-    type: 'enum',
+    type: process.env.NODE_ENV === 'test' ? 'text' : 'enum',
     enum: TransactionStatus,
     default: TransactionStatus.PENDING,
   })
@@ -42,7 +42,11 @@ export class TransactionOrmEntity {
   @Column({ unique: true })
   externalId: string;
 
-  @Column({ type: 'jsonb', default: {} })
+  @Column({
+    type: process.env.NODE_ENV === 'test' ? 'simple-json' : 'jsonb',
+    nullable: true,
+    ...(process.env.NODE_ENV !== 'test' && { default: {} }),
+  })
   metadata: Record<string, any>;
 
   @CreateDateColumn()

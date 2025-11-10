@@ -50,7 +50,7 @@ export class CommissionOrmEntity {
   level: number;
 
   @Column({
-    type: 'enum',
+    type: process.env.NODE_ENV === 'test' ? 'text' : 'enum',
     enum: CommissionStatus,
     default: CommissionStatus.PENDING,
   })

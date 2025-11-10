@@ -31,24 +31,31 @@ export class PayoutOrmEntity {
   amount: number;
 
   @Column({
-    type: 'enum',
+    type: process.env.NODE_ENV === 'test' ? 'text' : 'enum',
     enum: PaymentMethod,
     name: 'payment_method',
   })
   paymentMethod: PaymentMethod;
 
   @Column({
-    type: 'enum',
+    type: process.env.NODE_ENV === 'test' ? 'text' : 'enum',
     enum: PayoutStatus,
     default: PayoutStatus.PENDING,
   })
   @Index()
   status: PayoutStatus;
 
-  @Column({ type: 'timestamp', name: 'requested_at' })
+  @Column({
+    type: process.env.NODE_ENV === 'test' ? 'datetime' : 'timestamp',
+    name: 'requested_at',
+  })
   requestedAt: Date;
 
-  @Column({ type: 'timestamp', name: 'processed_at', nullable: true })
+  @Column({
+    type: process.env.NODE_ENV === 'test' ? 'datetime' : 'timestamp',
+    name: 'processed_at',
+    nullable: true,
+  })
   processedAt?: Date;
 
   @Column({ type: 'text', name: 'admin_notes', nullable: true })
