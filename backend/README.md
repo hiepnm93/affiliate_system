@@ -181,6 +181,119 @@ The following variables are used only in the local environment when using Docker
 
 Ensure that you have a `.env` file in the root directory of your project with the appropriate values for these variables.
 
+### JWT Authentication Configuration
+
+The following environment variables configure JWT authentication:
+
+- `JWT_SECRET`: Secret key used to sign JWT tokens. **IMPORTANT:** Change this to a strong, random string in production.
+- `JWT_EXPIRATION`: Token expiration time (default: `24h`). Examples: `1h`, `7d`, `30m`.
+
+## Authentication
+
+The application implements JWT-based authentication with the following features:
+
+### Endpoints
+
+#### Register a new user
+```bash
+POST /auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "yourpassword",
+  "name": "User Name"
+}
+```
+
+**Response:**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": 1,
+    "email": "user@example.com",
+    "name": "User Name"
+  }
+}
+```
+
+#### Login
+```bash
+POST /auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "yourpassword"
+}
+```
+
+**Response:** Same as register
+
+#### Get user profile (Protected)
+```bash
+GET /auth/profile
+Authorization: Bearer <your_token_here>
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "email": "user@example.com",
+  "name": "User Name"
+}
+```
+
+### Protecting Routes
+
+To protect a route with JWT authentication, use the `JwtAuthGuard`:
+
+```typescript
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../domains/auth/guards/jwt-auth.guard';
+
+@Controller('protected')
+export class ProtectedController {
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getProtectedData() {
+    return { message: 'This is protected data' };
+  }
+}
+```
+
+### Architecture
+
+The authentication system follows the Clean Architecture pattern:
+
+- **Domain Layer** (`src/domains/auth`):
+  - `strategies/jwt.strategy.ts`: Validates JWT tokens and retrieves user information
+  - `guards/jwt-auth.guard.ts`: Guard for protecting routes
+  - `services/auth.service.ts`: Business logic for login/register with bcrypt password hashing
+  - `dto/`: Data Transfer Objects for request validation
+
+- **Domain Layer** (`src/domains/user`):
+  - `entities/user.entity.ts`: User domain entity
+  - `repositories/user.repository.interface.ts`: User repository interface
+
+- **Infrastructure Layer** (`src/infrastructure/postgres`):
+  - `entities/user.orm-entity.ts`: TypeORM user entity with table mapping
+  - `user.impl.ts`: User repository implementation
+  - `mappers/user.mapper.ts`: Mapper between domain and ORM entities
+
+- **Interface Layer** (`src/interfaces/web/auth`):
+  - `auth.controller.ts`: HTTP endpoints for authentication
+  - `auth-web.module.ts`: Module wiring for the web layer
+
+### Security Features
+
+- Passwords are hashed using bcrypt with salt rounds of 10
+- JWT tokens expire after the configured time (default 24 hours)
+- Email uniqueness is enforced at the database level
+- Request validation using class-validator decorators
+- CORS enabled for cross-origin requests
 
 ## Conclusion
 
